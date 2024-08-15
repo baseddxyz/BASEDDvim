@@ -105,7 +105,7 @@ return {
 						return o
 					end
 				end
-				return open(pair, ne
+				return open(pair, neigh_pattern)
 			end
 		end,
 	},
@@ -127,4 +127,3 @@ return {
 		config = true,
 	},
 }
-
