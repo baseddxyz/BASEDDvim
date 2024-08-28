@@ -7,4 +7,4 @@
 </p>
 
 ## Preview
-<img width="1440" alt="image" src="https://github.com/user-attachments/assets/bfaba634-ba74-4f57-a407-c0ac08a2ae62">
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/d30adc52-c282-4d6c-81c7-26a492bef66f">
