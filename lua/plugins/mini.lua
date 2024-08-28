@@ -144,4 +144,9 @@ return {
 		version = false,
 		config = true,
 	},
+	{
+		'echasnovski/mini.trailspace',
+		version = false,
+		config = true,
+	},
 }
