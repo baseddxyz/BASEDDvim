@@ -6,7 +6,7 @@ local linters = {
 return {
 	{
 		'mfussenegger/nvim-lint',
-		event = { 'VeryLazy' },
+		ft = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
 		opts = {
 			-- Events to trigger linter
 			events = { "BufWritePost", "BufReadPost", "InsertLeave" },

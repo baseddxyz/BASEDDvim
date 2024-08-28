@@ -73,7 +73,7 @@ return {
 	},
 	{
 		'echasnovski/mini.pairs',
-		event = 'VeryLazy',
+		event = 'InsertEnter',
 		version = false,
 		opts = {
 			modes = { insert = true, command = true, terminal = false },
@@ -130,6 +130,7 @@ return {
 	{
 		'echasnovski/mini.comment',
 		version = false,
+		event = "BufReadPre",
 		opts = {
 			mappings = {
 				comment = '<leader>/',
