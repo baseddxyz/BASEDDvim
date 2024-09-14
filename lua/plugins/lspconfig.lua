@@ -8,7 +8,7 @@ local treesitter_options = {
 local mason_options = {
 	ensure_installed = {
 		'lua_ls',
-		'tsserver',
+		'ts_ls',
 		'rust_analyzer',
 		'svelte',
 	},
@@ -20,7 +20,7 @@ local mason_lsp_mapping = {
 	rust_analyzer = 'rust-analyzer',
 	stylua = 'stylua',
 	svelte = 'svelte-language-server',
-	tsserver = 'typescript-language-server',
+	ts_ls = 'typescript-language-server',
 }
 
 local mason_formatters = {
