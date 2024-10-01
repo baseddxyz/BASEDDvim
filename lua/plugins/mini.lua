@@ -4,17 +4,17 @@ return {
 		'echasnovski/mini.nvim',
 		version = false
 	},
-	{
-		'echasnovski/mini.pick',
-		version = false,
-		config = true,
-		lazy = true,
-		keys = {
-			{ '<leader>ff', '<cmd>Pick files<cr>' },
-			{ '<leader>fw', '<cmd>Pick grep_live<cr>' },
-			{ '<leader>fb', '<cmd>Pick buffers<cr>' },
-		},
-	},
+	-- {
+	-- 	'echasnovski/mini.pick',
+	-- 	version = false,
+	-- 	config = true,
+	-- 	lazy = true,
+	-- 	keys = {
+	-- 		{ '<leader>ff', '<cmd>Pick files<cr>' },
+	-- 		{ '<leader>fw', '<cmd>Pick grep_live<cr>' },
+	-- 		{ '<leader>fb', '<cmd>Pick buffers<cr>' },
+	-- 	},
+	-- },
 	{
 		'echasnovski/mini.starter',
 		version = false,
