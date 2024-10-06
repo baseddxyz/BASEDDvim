@@ -8,6 +8,7 @@ return {
 		dependencies = {
 			'nvim-lua/plenary.nvim',
 			'nvim-treesitter/nvim-treesitter',
+			'nvim-tree/nvim-web-devicons',
 		},
 		cmd = 'Telescope',
 		keys = {

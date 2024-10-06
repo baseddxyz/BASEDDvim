@@ -16,6 +16,11 @@ return {
 	-- 	},
 	-- },
 	{
+		'echasnovski/mini.icons',
+		version = false,
+		config = true,
+	},
+	{
 		'echasnovski/mini.starter',
 		version = false,
 		config = function()
