@@ -60,11 +60,11 @@ return {
 			}
 		end,
 	},
-	{
-		'echasnovski/mini.statusline',
-		version = false,
-		config = true,
-	},
+	-- {
+	-- 	'echasnovski/mini.statusline',
+	-- 	version = false,
+	-- 	config = true,
+	-- },
 	{
 		'echasnovski/mini.tabline',
 		version = false,
@@ -139,11 +139,11 @@ return {
 			}
 		},
 	},
-	{
-		'echasnovski/mini.notify',
-		version = false,
-		config = true,
-	},
+	-- {
+	-- 	'echasnovski/mini.notify',
+	-- 	version = false,
+	-- 	config = true,
+	-- },
 	{
 		'echasnovski/mini.trailspace',
 		version = false,
