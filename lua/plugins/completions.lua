@@ -1,7 +1,8 @@
 return {
 	-- autocompletion
 	{
-		'hrsh7th/nvim-cmp',
+		"iguanacucumber/magazine.nvim",
+		name = "nvim-cmp",
 		version = false,
 		event = 'InsertEnter',
 		config = function()
