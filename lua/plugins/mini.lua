@@ -65,11 +65,11 @@ return {
 		version = false,
 		config = true,
 	},
-	{
-		'echasnovski/mini.tabline',
-		version = false,
-		config = true,
-	},
+	-- {
+	-- 	'echasnovski/mini.tabline',
+	-- 	version = false,
+	-- 	config = true,
+	-- },
 	{
 		'echasnovski/mini.pairs',
 		event = 'InsertEnter',
