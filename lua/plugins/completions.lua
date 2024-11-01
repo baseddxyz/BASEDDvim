@@ -81,13 +81,27 @@ return {
 		---@type blink.cmp.Config
 		opts = {
 			keymap = {
-				accept = '<CR>',
-				select_next = {	'<UP>', '<TAB>' },
-				select_prev = { '<DOWN>', '<S-TAB>' },
+				['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+				['<C-e>'] = { 'hide' },
+				['<CR>'] = { 'select_and_accept', 'fallback' },
 
-				snippet_forward = '<C-n>',
-				snippet_backward = '<C-p>',
+				['<C-p>'] = { 'select_prev', 'fallback' },
+				['<C-n>'] = { 'select_next', 'fallback' },
+
+				['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+				['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+
+				['<Tab>'] = { 'snippet_forward', 'fallback' },
+				['<S-Tab>'] = { 'snippet_backward', 'fallback' },
 			},
+			-- keymap = {
+			-- 	accept = '<CR>',
+			-- 	select_next = { '<UP>', '<TAB>' },
+			-- 	select_prev = { '<DOWN>', '<S-TAB>' },
+			--
+			-- 	snippet_forward = '<C-n>',
+			-- 	snippet_backward = '<C-p>',
+			-- },
 			nerd_font_variant = 'mono',
 			trigger = {
 				signature_help = {

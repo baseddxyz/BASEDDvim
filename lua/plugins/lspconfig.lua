@@ -50,6 +50,7 @@ return {
 			local lspconfig = require('lspconfig')
 			local mason_registry = require('mason-registry')
 			-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+			local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 			for _, lsp in ipairs(mason_options.ensure_installed) do
 				if mason_registry.is_installed(mason_lsp_mapping[lsp]) then
@@ -70,7 +71,7 @@ return {
 									vim.lsp.buf.format { async = true }
 								end, opts)
 							end,
-							-- capabilities = capabilities,
+							capabilities = capabilities,
 							init_options = {
 								plugins = {
 									{
@@ -105,7 +106,7 @@ return {
 									vim.lsp.buf.format { async = true }
 								end, opts)
 							end,
-							-- capabilities = capabilities,
+							capabilities = capabilities,
 							init_options = {
 								typescript = {
 									tsdk = vim.fn.getcwd() .. '/node_modules/typescript/lib'
@@ -130,7 +131,7 @@ return {
 									vim.lsp.buf.format { async = true }
 								end, opts)
 							end,
-							-- capabilities = capabilities,
+							capabilities = capabilities,
 						})
 					end
 
