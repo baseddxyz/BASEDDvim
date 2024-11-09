@@ -164,7 +164,7 @@ return {
 	-- rustacean
 	{
 		'mrcjkb/rustaceanvim',
-		version = '^4',
+		version = '^5',
 		ft = { 'rust' },
 		opts = {
 			server = {
