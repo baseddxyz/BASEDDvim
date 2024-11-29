@@ -71,6 +71,8 @@ return {
 	-- 		},
 	-- 	},
 	-- },
+
+	{ 'saghen/blink.compat' },
 	{
 		'saghen/blink.cmp',
 		lazy = false,
@@ -108,6 +110,12 @@ return {
 					enabled = true,
 				}
 			},
+			providers = {
+				supermaven = {
+					name = 'supermaven',
+					module = 'blink.compat.sources'
+				}
+			}
 		},
 	}
 }

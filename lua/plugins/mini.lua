@@ -147,6 +147,7 @@ return {
 	{
 		'echasnovski/mini.trailspace',
 		version = false,
+		event = "BufReadPre",
 		config = true,
 	},
 }
