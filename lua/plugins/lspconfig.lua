@@ -77,7 +77,7 @@ return {
 									{
 										name = '@vue/typescript-plugin',
 										location = vim.fn.getcwd() .. '/node_modules/@vue/typescript-plugin',
-										languages = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue'},
+										languages = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
 									},
 								},
 							},
@@ -134,11 +134,11 @@ return {
 							capabilities = capabilities,
 						})
 					end
-
 				end
 			end
 		end,
 		dependencies = {
+			{ 'saghen/blink.cmp' },
 			{
 				'williamboman/mason.nvim',
 				event = { 'BufReadPre', 'BufNewFile' },
@@ -168,7 +168,7 @@ return {
 		ft = { 'rust' },
 		opts = {
 			server = {
-				on_attach = function (_, bufnr)
+				on_attach = function(_, bufnr)
 					local opts = {}
 					vim.keymap.set(
 						'n',
