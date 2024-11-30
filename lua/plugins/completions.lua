@@ -76,7 +76,10 @@ return {
 	{
 		'saghen/blink.cmp',
 		lazy = false,
-		dependencies = 'rafamadriz/friendly-snippets',
+		dependencies = {
+			{ 'rafamadriz/friendly-snippets' },
+			{ 'supermaven-inc/supermaven-nvim' },
+		},
 		build = 'cargo build --release',
 
 		---@module 'blink.cmp'
@@ -96,26 +99,21 @@ return {
 				['<Tab>'] = { 'snippet_forward', 'fallback' },
 				['<S-Tab>'] = { 'snippet_backward', 'fallback' },
 			},
-			-- keymap = {
-			-- 	accept = '<CR>',
-			-- 	select_next = { '<UP>', '<TAB>' },
-			-- 	select_prev = { '<DOWN>', '<S-TAB>' },
-			--
-			-- 	snippet_forward = '<C-n>',
-			-- 	snippet_backward = '<C-p>',
-			-- },
-			nerd_font_variant = 'mono',
-			trigger = {
-				signature_help = {
-					enabled = true,
-				}
+			sources = {
+				completion = {
+					-- remember to enable your providers here
+					enabled_providers = { 'lsp', 'path', 'snippets', 'buffer', 'supermaven' }
+				},
+				providers = {
+					supermaven = {
+						name = 'supermaven',
+						module = 'blink.compat.source',
+
+						opts = {}
+					}
+				},
 			},
-			providers = {
-				supermaven = {
-					name = 'supermaven',
-					module = 'blink.compat.sources'
-				}
-			}
+			signature = { enabled = true }
 		},
 	}
 }
