@@ -100,10 +100,7 @@ return {
 				['<S-Tab>'] = { 'snippet_backward', 'fallback' },
 			},
 			sources = {
-				completion = {
-					-- remember to enable your providers here
-					enabled_providers = { 'lsp', 'path', 'snippets', 'buffer', 'supermaven' }
-				},
+				default = { 'lsp', 'path', 'snippets', 'buffer', 'supermaven' },
 				providers = {
 					supermaven = {
 						name = 'supermaven',
