@@ -99,6 +99,13 @@ return {
 				['<Tab>'] = { 'snippet_forward', 'fallback' },
 				['<S-Tab>'] = { 'snippet_backward', 'fallback' },
 			},
+			completion = {
+				menu = {
+					draw = {
+						columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
+					}
+				}
+			},
 			sources = {
 				default = { 'lsp', 'path', 'snippets', 'buffer', 'supermaven' },
 				providers = {
@@ -109,6 +116,7 @@ return {
 						opts = {}
 					}
 				},
+				cmdline = {}
 			},
 			signature = { enabled = true }
 		},
