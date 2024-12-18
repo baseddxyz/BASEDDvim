@@ -8,3 +8,8 @@
 
 ## Preview
 <img width="1440" alt="image" src="https://github.com/user-attachments/assets/d30adc52-c282-4d6c-81c7-26a492bef66f">
+
+## Installation
+```bash
+git clone https://github.com/baseddxyz/BASEDDvim.git ~/.config/nvim
+```
