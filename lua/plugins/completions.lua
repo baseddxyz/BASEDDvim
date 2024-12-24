@@ -80,7 +80,7 @@ return {
 			{ 'rafamadriz/friendly-snippets' },
 			{ 'supermaven-inc/supermaven-nvim' },
 		},
-		build = 'cargo build --release',
+		version = '*',
 
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
