@@ -13,3 +13,6 @@
 ```bash
 git clone https://github.com/baseddxyz/BASEDDvim.git ~/.config/nvim
 ```
+
+## Environment Variables
+- GEMINI_API_KEY (for codecompanion.nvim)
