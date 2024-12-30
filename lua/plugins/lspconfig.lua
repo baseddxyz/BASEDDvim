@@ -1,5 +1,5 @@
 local treesitter_options = {
-	ensure_installed = { 'lua', 'javascript', 'typescript', 'rust', 'svelte', 'bash', 'vue' },
+	ensure_installed = { 'lua', 'javascript', 'typescript', 'rust', 'svelte', 'bash', 'vue', 'markdown' },
 	sync_install = false,
 	highlight = { enable = true },
 	indent = { enable = true },

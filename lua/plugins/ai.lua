@@ -39,18 +39,18 @@ return {
 					adapter = "gemini",
 				},
 			},
-			display = {
-				diff = {
-					provider = "mini_diff",
-				},
-			},
 			gemini = function()
 				return require("codecompanion.adapters").extend("gemini", {
 					env = {
 						api_key = "GEMINI_API_KEY",
 					}
 				})
-			end
+			end,
+			display = {
+				diff = {
+					provider = "mini_diff",
+				},
+			},
 		},
 	},
 }

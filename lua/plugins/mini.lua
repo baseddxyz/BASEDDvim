@@ -150,4 +150,9 @@ return {
 		event = "BufReadPre",
 		config = true,
 	},
+	{
+		'echasnovski/mini.diff',
+		version = false,
+		config = true,
+	},
 }
