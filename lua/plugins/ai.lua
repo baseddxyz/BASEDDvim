@@ -41,9 +41,14 @@ return {
 			},
 			gemini = function()
 				return require("codecompanion.adapters").extend("gemini", {
+					schema = {
+						model = {
+							default = "gemini-2.0-flash-exp",
+						},
+					},
 					env = {
 						api_key = "GEMINI_API_KEY",
-					}
+					},
 				})
 			end,
 			display = {

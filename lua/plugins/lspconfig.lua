@@ -1,5 +1,15 @@
 local treesitter_options = {
-	ensure_installed = { 'lua', 'javascript', 'typescript', 'rust', 'svelte', 'bash', 'vue', 'markdown' },
+	ensure_installed = {
+		'bash',
+		'javascript',
+		'lua',
+		'markdown',
+		'python',
+		'rust',
+		'svelte',
+		'typescript',
+		'vue',
+	},
 	sync_install = false,
 	highlight = { enable = true },
 	indent = { enable = true },
@@ -9,6 +19,7 @@ local mason_options = {
 	ensure_installed = {
 		'lua_ls',
 		'ts_ls',
+		'ruff',
 		'rust_analyzer',
 		'svelte',
 		'volar',
@@ -18,6 +29,7 @@ local mason_options = {
 local mason_lsp_mapping = {
 	gopls = 'gopls',
 	lua_ls = 'lua-language-server',
+	ruff = 'ruff',
 	rust_analyzer = 'rust-analyzer',
 	stylua = 'stylua',
 	svelte = 'svelte-language-server',
