@@ -1,6 +1,6 @@
 local configs = require('configs')
 
-local blink_default = {
+local blink_default_config = {
 	'saghen/blink.cmp',
 	lazy = false,
 	dependencies = {
@@ -39,8 +39,7 @@ local blink_default = {
 	},
 }
 
-local ai_config =
-		configs.ai.enabled
+local ai_config = configs.ai and configs.ai.enabled
 		and {
 			dependencies = {
 				{ 'rafamadriz/friendly-snippets' },
@@ -63,7 +62,7 @@ local ai_config =
 		}
 		or {}
 
-local blink_final_config = vim.tbl_deep_extend('force', blink_default, ai_config)
+local blink_final_config = vim.tbl_deep_extend('force', blink_default_config, ai_config)
 
 return {
 	{ 'saghen/blink.compat' },
