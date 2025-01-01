@@ -65,8 +65,6 @@ local ai_config =
 
 local blink_final_config = vim.tbl_deep_extend('force', blink_default, ai_config)
 
-print(vim.inspect(blink_final_config))
-
 return {
 	{ 'saghen/blink.compat' },
 	blink_final_config,
