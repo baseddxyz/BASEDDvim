@@ -47,6 +47,11 @@ return {
 				windows = true,
 				move_with_alt = true,
 			},
+			-- @todo bug with fzf-lua (have 'i' keys everywhere dont know how to fix yet)
+			autocommands = {
+				-- Basic autocommands (highlight on yank, start Insert in terminal, ...)
+				basic = false,
+			},
 		},
 	},
 	{

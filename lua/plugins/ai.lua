@@ -1,10 +1,6 @@
 local configs = require("configs")
 
-if not configs.ai.enabled then
-	return {}
-end
-
-return {
+return configs.ai and configs.ai.enabled and {
 	{
 		'supermaven-inc/supermaven-nvim',
 		event = 'BufReadPre',
@@ -58,4 +54,4 @@ return {
 			},
 		},
 	},
-}
+} or {}
