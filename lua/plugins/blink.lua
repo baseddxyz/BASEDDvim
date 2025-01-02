@@ -34,6 +34,7 @@ local blink_default_config = {
 		},
 		sources = {
 			default = { 'lsp', 'path', 'snippets', 'buffer' },
+			cmdline = {}
 		},
 		signature = { enabled = true }
 	},
@@ -56,7 +57,6 @@ local ai_config = configs.ai and configs.ai.enabled
 							opts = {}
 						}
 					},
-					cmdline = {}
 				},
 			}
 		}
