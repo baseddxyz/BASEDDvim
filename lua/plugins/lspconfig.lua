@@ -19,6 +19,7 @@ local mason_options = {
 	ensure_installed = {
 		'lua_ls',
 		'ts_ls',
+		'pyright',
 		'ruff',
 		'rust_analyzer',
 		'svelte',
@@ -29,6 +30,7 @@ local mason_options = {
 local mason_lsp_mapping = {
 	gopls = 'gopls',
 	lua_ls = 'lua-language-server',
+	pyright = 'pyright',
 	ruff = 'ruff',
 	rust_analyzer = 'rust-analyzer',
 	stylua = 'stylua',
@@ -40,6 +42,27 @@ local mason_lsp_mapping = {
 local mason_formatters = {
 	ensure_installed = { 'biome', 'stylua' },
 }
+
+local default_lspconfig = function(capabilities)
+	return {
+		on_attach = function()
+			local opts = {}
+			vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+			vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+			vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+			vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+			vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+			vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+			vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+			vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+			vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+			vim.keymap.set('n', '<leader>fm', function()
+				vim.lsp.buf.format { async = true }
+			end, opts)
+		end,
+		capabilities = capabilities,
+	}
+end
 
 return {
 	-- treesitter
@@ -65,87 +88,68 @@ return {
 			local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 			for _, lsp in ipairs(mason_options.ensure_installed) do
-				if mason_registry.is_installed(mason_lsp_mapping[lsp]) then
-					if lsp == 'ts_ls' then
-						lspconfig.ts_ls.setup({
-							on_attach = function()
-								local opts = {}
-								vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-								vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-								vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-								vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-								vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-								vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-								vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-								vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
-								vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-								vim.keymap.set('n', '<leader>fm', function()
-									vim.lsp.buf.format { async = true }
-								end, opts)
-							end,
-							capabilities = capabilities,
-							init_options = {
-								plugins = {
-									{
-										name = '@vue/typescript-plugin',
-										location = vim.fn.getcwd() .. '/node_modules/@vue/typescript-plugin',
-										languages = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+				if lsp == 'ts_ls' then
+					lspconfig[lsp].setup(
+						vim.tbl_deep_extend(
+							'force',
+							default_lspconfig(capabilities),
+							{
+								init_options = {
+									plugins = {
+										{
+											name = '@vue/typescript-plugin',
+											location = vim.fn.getcwd() .. '/node_modules/@vue/typescript-plugin',
+											languages = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
+										},
 									},
 								},
-							},
-							filetypes = {
-								'javascript',
-								'javascriptreact',
-								'typescript',
-								'typescriptreact',
-								'vue',
-							},
-						})
-					elseif lsp == 'volar' then
-						lspconfig.volar.setup({
-							on_attach = function()
-								local opts = {}
-								vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-								vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-								vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-								vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-								vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-								vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-								vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-								vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
-								vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-								vim.keymap.set('n', '<leader>fm', function()
-									vim.lsp.buf.format { async = true }
-								end, opts)
-							end,
-							capabilities = capabilities,
-							init_options = {
-								typescript = {
-									tsdk = vim.fn.getcwd() .. '/node_modules/typescript/lib'
-								}
-							},
-						})
-						-- for rust use rustaceanvim instead of direct LSP
-					elseif lsp ~= 'rust_analyzer' then
-						lspconfig[lsp].setup({
-							on_attach = function()
-								local opts = {}
-								vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-								vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-								vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-								vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-								vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-								vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-								vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-								vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
-								vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-								vim.keymap.set('n', '<leader>fm', function()
-									vim.lsp.buf.format { async = true }
-								end, opts)
-							end,
-							capabilities = capabilities,
-						})
-					end
+								filetypes = {
+									'javascript',
+									'javascriptreact',
+									'typescript',
+									'typescriptreact',
+									'vue',
+								},
+							}
+						)
+					)
+				elseif lsp == 'volar' then
+					lspconfig[lsp].setup(
+						vim.tbl_deep_extend(
+							'force',
+							default_lspconfig(capabilities),
+							{
+								init_options = {
+									typescript = {
+										tsdk = vim.fn.getcwd() .. '/node_modules/typescript/lib'
+									}
+								},
+							}
+						)
+					)
+				elseif lsp == 'pyright' then
+					lspconfig[lsp].setup(
+						vim.tbl_deep_extend(
+							'force',
+							default_lspconfig(capabilities),
+							{
+								settings = {
+									pyright = {
+										-- Using Ruff's import organizer
+										disableOrganizeImports = true,
+									},
+									python = {
+										analysis = {
+											-- Ignore all files for analysis to exclusively use Ruff for linting
+											ignore = { '*' },
+										},
+									},
+								},
+							}
+						)
+					)
+				elseif lsp ~= 'rust_analyzer' then
+					lspconfig[lsp].setup(default_lspconfig(capabilities))
 				end
 			end
 		end,
