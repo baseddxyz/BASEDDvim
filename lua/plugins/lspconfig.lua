@@ -180,7 +180,7 @@ return {
 	-- rustacean
 	{
 		'mrcjkb/rustaceanvim',
-		version = '^5',
+		version = false,
 		ft = { 'rust' },
 		opts = {
 			server = {
