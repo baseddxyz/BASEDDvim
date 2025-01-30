@@ -16,12 +16,21 @@ return {
 		priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
 		opts = {
 			transparent_background = true,
-			contrast_dark = 'hard', -- 'hard'|'medium'|'soft'
-			overrides = {},      -- add custom overrides
+			variant = 'medium', -- 'hard'|'medium'|'soft'
+			-- overrides = {},      -- add custom overrides
 		},
 		config = function(_, opts)
 			require("evergarden").setup(opts)
 			vim.cmd("colorscheme evergarden")
 		end,
-	}
+	},
+	-- {
+	-- 	"ellisonleao/gruvbox.nvim",
+	-- 	priority = 1000,
+	-- 	config = function(_, opts)
+	-- 		require("gruvbox").setup(opts)
+	-- 		vim.o.background = "dark"
+	-- 		vim.cmd("colorscheme gruvbox")
+	-- 	end,
+	-- },
 }
