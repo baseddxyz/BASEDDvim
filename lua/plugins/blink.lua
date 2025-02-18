@@ -34,8 +34,8 @@ local blink_default_config = {
 		},
 		sources = {
 			default = { 'lsp', 'path', 'snippets', 'buffer' },
-			cmdline = {}
 		},
+		cmdline = { enabled = false },
 		signature = { enabled = true }
 	},
 }

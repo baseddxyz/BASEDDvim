@@ -155,4 +155,9 @@ return {
 		version = false,
 		config = true,
 	},
+	{
+		'echasnovski/mini.ai',
+		version = false,
+		config = true,
+	}
 }
