@@ -25,7 +25,7 @@ return {
 					end,
 				},
 			},
-   image = {}
+			image = {},
 		},
 		keys = {
 			-- { "<c-/>", function() Snacks.terminal() end, desc = "Toggle Terminal"},
