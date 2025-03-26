@@ -11,19 +11,6 @@ return {
 	-- 		vim.cmd('colorscheme everforest')
 	-- 	end,
 	-- },
-	{
-		"comfysage/evergarden",
-		priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
-		opts = {
-			transparent_background = true,
-			variant = 'medium', -- 'hard'|'medium'|'soft'
-			-- overrides = {},      -- add custom overrides
-		},
-		config = function(_, opts)
-			require("evergarden").setup(opts)
-			vim.cmd("colorscheme evergarden")
-		end,
-	},
 	-- {
 	-- 	"ellisonleao/gruvbox.nvim",
 	-- 	priority = 1000,
@@ -33,4 +20,29 @@ return {
 	-- 		vim.cmd("colorscheme gruvbox")
 	-- 	end,
 	-- },
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {},
+		config = function(_, opts)
+			require("tokyonight").setup(opts)
+			vim.cmd("colorscheme tokyonight-night")
+		end,
+	},
+	-- {
+	-- 	"comfysage/evergarden",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	opts = {
+	-- 		theme = {
+	-- 			variant = "winter", -- "winter"|"fall"|"spring"
+	-- 			accent = "green",
+	-- 		},
+	-- 	},
+	-- 	config = function(_, opts)
+	-- 		require("evergarden").setup(opts)
+	-- 		vim.cmd("colorscheme evergarden")
+	-- 	end,
+	-- }
 }
