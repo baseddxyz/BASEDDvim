@@ -36,8 +36,10 @@ local blink_default_config = {
 			default = { 'lsp', 'path', 'snippets', 'buffer' },
 		},
 		cmdline = { enabled = false },
-		signature = { enabled = true }
+		signature = { enabled = true },
+		fuzzy = { implementation = "prefer_rust_with_warning" }
 	},
+	opts_extend = { "sources.default" },
 }
 
 local ai_config = configs.ai and configs.ai.enabled

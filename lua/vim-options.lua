@@ -15,3 +15,7 @@ map('n', '<S-TAB>', '<cmd>bprevious<cr>', { desc = 'Go to previes buffer' })
 map('n', '<leader>x', '<cmd>bdelete<cr>', { desc = 'Delete Buffer' })
 map('n', '<leader>X', '<cmd>bd!<cr>', { desc = 'Force Delete Buffer' })
 
+
+vim.diagnostic.config({
+	virtual_lines = true,
+})
