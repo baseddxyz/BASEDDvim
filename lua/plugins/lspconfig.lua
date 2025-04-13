@@ -82,14 +82,12 @@ return {
 		'neovim/nvim-lspconfig',
 		event = { 'BufReadPre', 'BufNewFile' },
 		config = function()
-			local lspconfig = require('lspconfig')
-			local mason_registry = require('mason-registry')
-			-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
 			local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 			for _, lsp in ipairs(mason_options.ensure_installed) do
 				if lsp == 'ts_ls' then
-					lspconfig[lsp].setup(
+					vim.lsp.config(
+						lsp,
 						vim.tbl_deep_extend(
 							'force',
 							default_lspconfig(capabilities),
@@ -113,8 +111,10 @@ return {
 							}
 						)
 					)
+					vim.lsp.enable(lsp)
 				elseif lsp == 'volar' then
-					lspconfig[lsp].setup(
+					vim.lsp.config(
+						lsp,
 						vim.tbl_deep_extend(
 							'force',
 							default_lspconfig(capabilities),
@@ -127,8 +127,10 @@ return {
 							}
 						)
 					)
+					vim.lsp.enable(lsp)
 				elseif lsp == 'pyright' then
-					lspconfig[lsp].setup(
+					vim.lsp.config(
+						lsp,
 						vim.tbl_deep_extend(
 							'force',
 							default_lspconfig(capabilities),
@@ -148,8 +150,10 @@ return {
 							}
 						)
 					)
+					vim.lsp.enable(lsp)
 				elseif lsp ~= 'rust_analyzer' then
-					lspconfig[lsp].setup(default_lspconfig(capabilities))
+					vim.lsp.config(lsp, default_lspconfig(capabilities))
+					vim.lsp.enable(lsp)
 				end
 			end
 		end,

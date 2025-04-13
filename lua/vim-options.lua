@@ -17,5 +17,6 @@ map('n', '<leader>X', '<cmd>bd!<cr>', { desc = 'Force Delete Buffer' })
 
 
 vim.diagnostic.config({
-	virtual_lines = true,
+	virtual_text = true,
+	-- virtual_lines = true,
 })
