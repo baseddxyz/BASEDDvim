@@ -79,7 +79,7 @@ return {
 			-- skip autopair when next character is one of these
 			skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
 			-- skip autopair when the cursor is inside these treesitter nodes
-			skip_ts = { 'string' },
+			skip_ts = { "string" },
 			-- skip autopair when next character is closing pair
 			-- and there are more closing pairs than opening pairs
 			skip_unbalanced = true,
@@ -88,7 +88,7 @@ return {
 		},
 		config = function(_, opts)
 			-- copy from https://github.com/LazyVim/LazyVim/blob/12818a6cb499456f4903c5d8e68af43753ebc869/lua/lazyvim/util/mini.lua#L123-L168
-			local pairs = require('mini.pairs')
+			local pairs = require("mini.pairs")
 			pairs.setup(opts)
 			local open = pairs.open
 			pairs.open = function(pair, neigh_pattern)
@@ -107,8 +107,7 @@ return {
 					return o
 				end
 				if opts.skip_ts and #opts.skip_ts > 0 then
-					local ok, captures = pcall(vim.treesitter.get_captures_at_pos, 0, cursor[1] - 1,
-						math.max(cursor[2] - 1, 0))
+					local ok, captures = pcall(vim.treesitter.get_captures_at_pos, 0, cursor[1] - 1, math.max(cursor[2] - 1, 0))
 					for _, capture in ipairs(ok and captures or {}) do
 						if vim.tbl_contains(opts.skip_ts, capture.capture) then
 							return o

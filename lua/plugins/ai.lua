@@ -23,7 +23,7 @@ return configs.ai and configs.ai.enabled and {
 			"nvim-treesitter/nvim-treesitter",
 			{
 				"MeanderingProgrammer/render-markdown.nvim",
-				ft = { "markdown", "codecompanion" }
+				ft = { "codecompanion" }
 			},
 		},
 		opts = {
