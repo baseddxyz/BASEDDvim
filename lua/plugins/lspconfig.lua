@@ -43,6 +43,8 @@ local mason_formatters = {
 	ensure_installed = { 'biome', 'stylua' },
 }
 
+local rust_diagnostics = "rust-analyzer"
+
 local default_lspconfig = function(capabilities)
 	return {
 		on_attach = function()
@@ -185,6 +187,7 @@ return {
 	{
 		'mrcjkb/rustaceanvim',
 		version = false,
+		lazy = false,
 		ft = { 'rust' },
 		opts = {
 			server = {
@@ -217,19 +220,21 @@ return {
 					vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
 					vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
 				end,
-
 				default_settings = {
-					['rust-analyzer'] = {
+					-- rust-analyzer language server configuration
+					["rust-analyzer"] = {
 						cargo = {
 							allFeatures = true,
 							loadOutDirsFromCheck = true,
-							runBuildScripts = true,
+							buildScripts = {
+								enable = true,
+							},
 						},
-						-- Add clippy lints for Rust.
-						checkOnSave = {
-							allFeatures = true,
-							command = "clippy",
-							extraArgs = { "--no-deps" },
+						-- Add clippy lints for Rust if using rust-analyzer
+						checkOnSave = rust_diagnostics == "rust-analyzer",
+						-- Enable diagnostics if using rust-analyzer
+						diagnostics = {
+							enable = rust_diagnostics == "rust-analyzer",
 						},
 						procMacro = {
 							enable = true,
@@ -237,6 +242,19 @@ return {
 								["async-trait"] = { "async_trait" },
 								["napi-derive"] = { "napi" },
 								["async-recursion"] = { "async_recursion" },
+							},
+						},
+						files = {
+							excludeDirs = {
+								".direnv",
+								".git",
+								".github",
+								".gitlab",
+								"bin",
+								"node_modules",
+								"target",
+								"venv",
+								".venv",
 							},
 						},
 					},
