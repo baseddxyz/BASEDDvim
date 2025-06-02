@@ -8,7 +8,6 @@ local treesitter_options = {
 		'rust',
 		'svelte',
 		'typescript',
-		'vue',
 	},
 	sync_install = false,
 	highlight = { enable = true },
@@ -23,7 +22,6 @@ local mason_options = {
 		'ruff',
 		'rust_analyzer',
 		'svelte',
-		'volar',
 	},
 }
 
@@ -36,7 +34,6 @@ local mason_lsp_mapping = {
 	stylua = 'stylua',
 	svelte = 'svelte-language-server',
 	ts_ls = 'typescript-language-server',
-	volar = 'vue-language-server',
 }
 
 local mason_formatters = {
@@ -113,23 +110,6 @@ return {
 							}
 						)
 					)
-					vim.lsp.enable(lsp)
-				elseif lsp == 'volar' then
-					vim.lsp.config(
-						lsp,
-						vim.tbl_deep_extend(
-							'force',
-							default_lspconfig(capabilities),
-							{
-								init_options = {
-									typescript = {
-										tsdk = vim.fn.getcwd() .. '/node_modules/typescript/lib'
-									}
-								},
-							}
-						)
-					)
-					vim.lsp.enable(lsp)
 				elseif lsp == 'pyright' then
 					vim.lsp.config(
 						lsp,
@@ -152,11 +132,12 @@ return {
 							}
 						)
 					)
-					vim.lsp.enable(lsp)
 				elseif lsp ~= 'rust_analyzer' then
 					vim.lsp.config(lsp, default_lspconfig(capabilities))
-					vim.lsp.enable(lsp)
 				end
+
+				-- enable LSP
+				vim.lsp.enable(lsp)
 			end
 		end,
 		dependencies = {
@@ -276,10 +257,10 @@ return {
 			conform.setup({
 				formatters_by_ft = {
 					lua = { 'stylua' },
-					javascript = { 'biome' },
-					javascriptreact = { 'biome' },
+					javascript = { 'biome-check' },
+					javascriptreact = { 'biome-check' },
 					typescript = { 'biome' },
-					typescriptreact = { 'biome' },
+					typescriptreact = { 'biome-check' },
 				},
 			})
 
