@@ -39,7 +39,7 @@ return configs.ai and configs.ai.enabled and {
 				return require("codecompanion.adapters").extend("gemini", {
 					schema = {
 						model = {
-							default = "gemini-2.0-flash-lite",
+							default = "gemini-2.5-flash-preview-05-20"
 						},
 					},
 					env = {
