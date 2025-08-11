@@ -8,6 +8,7 @@ local treesitter_options = {
 		'rust',
 		'svelte',
 		'typescript',
+		'go',
 	},
 	sync_install = false,
 	highlight = { enable = true },
@@ -22,6 +23,7 @@ local mason_options = {
 		'ruff',
 		'rust_analyzer',
 		'svelte',
+		'gopls',
 	},
 }
 
