@@ -2,7 +2,8 @@ local configs = require('configs')
 
 local blink_default_config = {
 	'saghen/blink.cmp',
-	lazy = false,
+	lazy = true,
+	event = { 'InsertEnter', 'LspAttach' },
 	dependencies = {
 		{ 'rafamadriz/friendly-snippets' },
 	},
@@ -47,9 +48,11 @@ local ai_config = configs.ai and configs.ai.enabled
 			dependencies = {
 				{ 'rafamadriz/friendly-snippets' },
 				{ 'supermaven-inc/supermaven-nvim' },
+				-- { 'Kaiser-Yang/blink-cmp-avante' },
 			},
 			opts = {
 				sources = {
+					-- default = { 'lsp', 'path', 'snippets', 'buffer', 'supermaven', 'avante' },
 					default = { 'lsp', 'path', 'snippets', 'buffer', 'supermaven' },
 					providers = {
 						supermaven = {
@@ -57,7 +60,12 @@ local ai_config = configs.ai and configs.ai.enabled
 							module = 'blink.compat.source',
 
 							opts = {}
-						}
+						},
+						-- avante = {
+						-- 	name = 'Avante',
+						-- 	module = 'blink-cmp-avante',
+						-- 	opts = {}
+						-- },
 					},
 				},
 			}

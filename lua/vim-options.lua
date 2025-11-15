@@ -1,20 +1,20 @@
-vim.cmd('set noexpandtab')
-vim.cmd('set tabstop=2')
-vim.cmd('set softtabstop=2')
-vim.cmd('set shiftwidth=2')
+vim.cmd("set noexpandtab")
+vim.cmd("set tabstop=2")
+vim.cmd("set softtabstop=2")
+vim.cmd("set shiftwidth=2")
 
-vim.cmd('set relativenumber')
+vim.cmd("set relativenumber")
 
-vim.g.mapleader = ' '
+vim.g.mapleader = " "
 
 -- mappings
 local map = vim.keymap.set
 
 -- buffer
-map('n', '<TAB>', '<cmd>bnext<cr>', { desc = 'Go to next buffer' })
-map('n', '<S-TAB>', '<cmd>bprevious<cr>', { desc = 'Go to previes buffer' })
-map('n', '<leader>x', '<cmd>bdelete<cr>', { desc = 'Delete Buffer' })
-map('n', '<leader>X', '<cmd>bd!<cr>', { desc = 'Force Delete Buffer' })
+map("n", "<TAB>", "<cmd>bnext<cr>", { desc = "Go to next buffer" })
+map("n", "<S-TAB>", "<cmd>bprevious<cr>", { desc = "Go to previes buffer" })
+map("n", "<leader>x", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
+map("n", "<leader>X", "<cmd>bd!<cr>", { desc = "Force Delete Buffer" })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
@@ -35,7 +35,6 @@ map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
 map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
 map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
-
 
 vim.diagnostic.config({
 	virtual_text = true,

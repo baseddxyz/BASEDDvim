@@ -20,29 +20,29 @@ return {
 	-- 		vim.cmd("colorscheme gruvbox")
 	-- 	end,
 	-- },
-	{
-		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = {},
-		config = function(_, opts)
-			require("tokyonight").setup(opts)
-			vim.cmd("colorscheme tokyonight-night")
-		end,
-	},
 	-- {
-	-- 	"comfysage/evergarden",
+	-- 	"folke/tokyonight.nvim",
 	-- 	lazy = false,
 	-- 	priority = 1000,
-	-- 	opts = {
-	-- 		theme = {
-	-- 			variant = "winter", -- "winter"|"fall"|"spring"
-	-- 			accent = "green",
-	-- 		},
-	-- 	},
+	-- 	opts = {},
 	-- 	config = function(_, opts)
-	-- 		require("evergarden").setup(opts)
-	-- 		vim.cmd("colorscheme evergarden")
+	-- 		require("tokyonight").setup(opts)
+	-- 		vim.cmd("colorscheme tokyonight-night")
 	-- 	end,
-	-- }
+	-- },
+	{
+		"comfysage/evergarden",
+		lazy = false,
+		priority = 1000,
+		opts = {
+			theme = {
+				variant = "winter", -- "winter"|"fall"|"spring"
+				accent = "green",
+			},
+		},
+		config = function(_, opts)
+			require("evergarden").setup(opts)
+			vim.cmd("colorscheme evergarden")
+		end,
+	}
 }

@@ -1,11 +1,11 @@
 return {
 	-- mini.nvim
 	{
-		'echasnovski/mini.nvim',
-		version = false
+		"nvim-mini/mini.nvim",
+		version = false,
 	},
 	-- {
-	-- 	'echasnovski/mini.pick',
+	-- 	'nvim-mini/mini.pick',
 	-- 	version = false,
 	-- 	config = true,
 	-- 	lazy = true,
@@ -16,31 +16,31 @@ return {
 	-- 	},
 	-- },
 	{
-		'echasnovski/mini.icons',
+		"nvim-mini/mini.icons",
 		version = false,
 		config = true,
 	},
 	{
-		'echasnovski/mini.starter',
+		"nvim-mini/mini.starter",
 		version = false,
 		config = function()
 			local logo = table.concat({
-				'██████╗  █████╗ ███████╗███████╗██████╗ ██████╗ ',
-				'██╔══██╗██╔══██╗██╔════╝██╔════╝██╔══██╗██╔══██╗',
-				'██████╔╝███████║███████╗█████╗  ██║  ██║██║  ██║',
-				'██╔══██╗██╔══██║╚════██║██╔══╝  ██║  ██║██║  ██║',
-				'██████╔╝██║  ██║███████║███████╗██████╔╝██████╔╝',
-				'╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝╚═════╝ ╚═════╝ ',
-				'                                                ',
-			}, '\n')
+				"██████╗  █████╗ ███████╗███████╗██████╗ ██████╗ ",
+				"██╔══██╗██╔══██╗██╔════╝██╔════╝██╔══██╗██╔══██╗",
+				"██████╔╝███████║███████╗█████╗  ██║  ██║██║  ██║",
+				"██╔══██╗██╔══██║╚════██║██╔══╝  ██║  ██║██║  ██║",
+				"██████╔╝██║  ██║███████║███████╗██████╔╝██████╔╝",
+				"╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝╚═════╝ ╚═════╝ ",
+				"                                                ",
+			}, "\n")
 
-			require('mini.starter').setup({
+			require("mini.starter").setup({
 				header = logo,
 			})
 		end,
 	},
 	{
-		'echasnovski/mini.basics',
+		"nvim-mini/mini.basics",
 		version = false,
 		opts = {
 			mappings = {
@@ -50,29 +50,34 @@ return {
 		},
 	},
 	{
-		'echasnovski/mini.files',
+		"nvim-mini/mini.files",
 		version = false,
 		keys = function()
-			local MiniFiles = require('mini.files')
+			local MiniFiles = require("mini.files")
 
 			return {
-				{ '<leader>e', function() MiniFiles.open() end },
+				{
+					"<leader>e",
+					function()
+						MiniFiles.open()
+					end,
+				},
 			}
 		end,
 	},
 	{
-		'echasnovski/mini.statusline',
+		"nvim-mini/mini.statusline",
 		version = false,
 		config = true,
 	},
 	-- {
-	-- 	'echasnovski/mini.tabline',
+	-- 	'nvim-mini/mini.tabline',
 	-- 	version = false,
 	-- 	config = true,
 	-- },
 	{
-		'echasnovski/mini.pairs',
-		event = 'InsertEnter',
+		"nvim-mini/mini.pairs",
+		event = "InsertEnter",
 		version = false,
 		opts = {
 			modes = { insert = true, command = true, terminal = false },
@@ -107,7 +112,8 @@ return {
 					return o
 				end
 				if opts.skip_ts and #opts.skip_ts > 0 then
-					local ok, captures = pcall(vim.treesitter.get_captures_at_pos, 0, cursor[1] - 1, math.max(cursor[2] - 1, 0))
+					local ok, captures =
+							pcall(vim.treesitter.get_captures_at_pos, 0, cursor[1] - 1, math.max(cursor[2] - 1, 0))
 					for _, capture in ipairs(ok and captures or {}) do
 						if vim.tbl_contains(opts.skip_ts, capture.capture) then
 							return o
@@ -126,37 +132,85 @@ return {
 		end,
 	},
 	{
-		'echasnovski/mini.comment',
+		"nvim-mini/mini.comment",
 		version = false,
 		event = "BufReadPre",
 		opts = {
 			mappings = {
-				comment = '<leader>/',
-				comment_line = '<leader>/',
-				comment_visual = '<leader>/',
-				textobject = '<leader>/',
-			}
+				comment = "<leader>/",
+				comment_line = "<leader>/",
+				comment_visual = "<leader>/",
+				textobject = "<leader>/",
+			},
 		},
 	},
 	{
-		'echasnovski/mini.notify',
+		"nvim-mini/mini.notify",
 		version = false,
-		config = true,
+		config = function()
+			local MiniNotify = require("mini.notify")
+			local validate_pattern = "Validate documents"
+			local diagnostics_pat = "Publish Diagnostics"
+			MiniNotify.setup({
+				-- Content management
+				content = {
+					-- Function which formats the notification message
+					-- By default prepends message with notification time
+					format = nil,
+
+					-- Function which orders notification array from most to least important
+					-- By default orders first by level and then by update timestamp
+					sort = function(notif_arr)
+						return vim.tbl_filter(function(notif)
+							if notif.data.source ~= 'lsp_progress' then
+								return true
+							end
+
+							return not (notif.msg:find(validate_pattern) or notif.msg:find(diagnostics_pat))
+						end, notif_arr)
+					end,
+				},
+
+				-- Notifications about LSP progress
+				lsp_progress = {
+					-- Whether to enable showing
+					enable = true,
+
+					-- Notification level
+					level = "INFO",
+
+					-- Duration (in ms) of how long last message should be shown
+					duration_last = 1000,
+				},
+
+				-- Window options
+				window = {
+					-- Floating window config
+					config = {},
+
+					-- Maximum window width as share (between 0 and 1) of available columns
+					max_width_share = 0.382,
+
+					-- Value of 'winblend' option
+					winblend = 25,
+				},
+			})
+		end,
 	},
 	{
-		'echasnovski/mini.trailspace',
+		"nvim-mini/mini.trailspace",
 		version = false,
 		event = "BufReadPre",
 		config = true,
 	},
 	{
-		'echasnovski/mini.diff',
+		"nvim-mini/mini.diff",
 		version = false,
 		config = true,
 	},
 	{
-		'echasnovski/mini.ai',
+		"nvim-mini/mini.ai",
 		version = false,
 		config = true,
-	}
+	},
 }
