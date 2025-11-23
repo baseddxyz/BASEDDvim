@@ -10,7 +10,7 @@ return {
 			-- terminal = { enabled = true },
 			rename = { enabled = true },
 			dim = {
-				animate = { enabled = false }
+				animate = { enabled = false },
 			},
 			indent = {
 				animate = { enabled = false },
@@ -29,12 +29,39 @@ return {
 		},
 		keys = {
 			-- { "<c-/>", function() Snacks.terminal() end, desc = "Toggle Terminal"},
-			{ "<leader>rr", function() Snacks.rename.rename_file() end, desc = "Rename File" },
-			{ "<leader>ff", function() Snacks.picker.files() end,       desc = "Find Files" },
-			{ "<leader>fw", function() Snacks.picker.grep() end,        desc = "Grep" },
-			{ "<leader>fb", function() Snacks.picker.buffers() end,     desc = "Buffers" },
+			{
+				"<leader>rr",
+				function()
+					Snacks.rename.rename_file()
+				end,
+				desc = "Rename File",
+			},
+			{
+				"<leader>ff",
+				function()
+					Snacks.picker.files()
+				end,
+				desc = "Find Files",
+			},
+			{
+				"<leader>fw",
+				function()
+					Snacks.picker.grep()
+				end,
+				desc = "Grep",
+			},
+			{
+				"<leader>fb",
+				function()
+					Snacks.picker.buffers()
+				end,
+				desc = "Buffers",
+			},
 		},
 		init = function()
+			local Snacks = require("snacks")
+			Snacks.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to clipboard" })
+
 			vim.api.nvim_create_autocmd("User", {
 				pattern = "VeryLazy",
 				callback = function()
@@ -42,6 +69,6 @@ return {
 					Snacks.toggle.dim():map("<leader>uD")
 				end,
 			})
-		end
-	}
+		end,
+	},
 }

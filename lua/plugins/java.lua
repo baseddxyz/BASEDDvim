@@ -146,7 +146,17 @@ return {
 						vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, options)
 						vim.keymap.set("n", "gr", vim.lsp.buf.references, options)
 						vim.keymap.set("n", "<leader>fm", function()
-							vim.lsp.buf.format({ async = true })
+							local ok, conform = pcall(require, "conform")
+
+							if ok then
+								conform.format({
+									lsp_fallback = true,
+									async = false,
+									timeout_ms = 500,
+								})
+							else
+								vim.lsp.buf.format({ async = true })
+							end
 						end, options)
 
 						-- User can set additional keymaps in opts.on_attach
