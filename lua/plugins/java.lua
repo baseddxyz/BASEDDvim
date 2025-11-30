@@ -135,29 +135,9 @@ return {
 				callback = function(args)
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 					if client and client.name == "jdtls" then
-						local options = {}
-						vim.keymap.set("n", "gD", vim.lsp.buf.declaration, options)
-						vim.keymap.set("n", "gd", vim.lsp.buf.definition, options)
-						vim.keymap.set("n", "K", vim.lsp.buf.hover, options)
-						vim.keymap.set("n", "gi", vim.lsp.buf.implementation, options)
-						vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, options)
-						vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, options)
-						vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, options)
-						vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, options)
-						vim.keymap.set("n", "gr", vim.lsp.buf.references, options)
-						vim.keymap.set("n", "<leader>fm", function()
-							local ok, conform = pcall(require, "conform")
-
-							if ok then
-								conform.format({
-									lsp_fallback = true,
-									async = false,
-									timeout_ms = 500,
-								})
-							else
-								vim.lsp.buf.format({ async = true })
-							end
-						end, options)
+						local keymaps = require("keymaps")
+						keymaps.lsp({ buffer = bufnr })
+						keymaps.lsp_format({ buffer = bufnr })
 
 						-- User can set additional keymaps in opts.on_attach
 						if opts.on_attach then

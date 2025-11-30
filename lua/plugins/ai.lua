@@ -12,49 +12,49 @@ return configs.ai
 					})
 				end,
 			},
-			{
-				"olimorris/codecompanion.nvim",
-				opts = {
-					strategies = {
-						chat = {
-							adapter = "claude_code",
-						},
-						inline = {
-							adapter = "claude_code",
-						},
-						cmd = {
-							adapter = "claude_code",
-						},
-					},
-					adapters = {
-						http = {
-							anthropic = function()
-								return require("codecompanion.adapters").extend("anthropic", {
-									env = {
-										api_key = "ANTHROPIC_API_KEY",
-									},
-								})
-							end,
-							acp = {
-								claude_code = function()
-									return require("codecompanion.adapters").extend("claude_code", {
-										env = {
-											ANTHROPIC_API_KEY = "ANTHROPIC_API_KEY",
-										},
-									})
-								end,
-							},
-						},
-					},
-				},
-				dependencies = {
-					"nvim-lua/plenary.nvim",
-					{
-						"MeanderingProgrammer/render-markdown.nvim",
-						ft = { "markdown", "codecompanion" },
-					},
-				},
-			},
+			-- {
+			-- 	"olimorris/codecompanion.nvim",
+			-- 	opts = {
+			-- 		strategies = {
+			-- 			chat = {
+			-- 				adapter = "claude_code",
+			-- 			},
+			-- 			inline = {
+			-- 				adapter = "claude_code",
+			-- 			},
+			-- 			cmd = {
+			-- 				adapter = "claude_code",
+			-- 			},
+			-- 		},
+			-- 		adapters = {
+			-- 			http = {
+			-- 				anthropic = function()
+			-- 					return require("codecompanion.adapters").extend("anthropic", {
+			-- 						env = {
+			-- 							api_key = "ANTHROPIC_API_KEY",
+			-- 						},
+			-- 					})
+			-- 				end,
+			-- 				acp = {
+			-- 					claude_code = function()
+			-- 						return require("codecompanion.adapters").extend("claude_code", {
+			-- 							env = {
+			-- 								ANTHROPIC_API_KEY = "ANTHROPIC_API_KEY",
+			-- 							},
+			-- 						})
+			-- 					end,
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 	},
+			-- 	dependencies = {
+			-- 		"nvim-lua/plenary.nvim",
+			-- 		{
+			-- 			"MeanderingProgrammer/render-markdown.nvim",
+			-- 			ft = { "markdown", "codecompanion" },
+			-- 		},
+			-- 	},
+			-- },
 
 			-- {
 			-- 	"olimorris/codecompanion.nvim",

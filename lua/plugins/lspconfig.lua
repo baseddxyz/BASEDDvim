@@ -47,32 +47,13 @@ local mason_formatters = {
 
 local rust_diagnostics = "rust-analyzer"
 
+local keymaps = require("keymaps")
+
 local default_lspconfig = function(capabilities)
 	return {
 		on_attach = function()
-			local opts = {}
-			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-			vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-			vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-			vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
-			vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-			vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-			vim.keymap.set("n", "<leader>fm", function()
-				local ok, conform = pcall(require, "conform")
-
-				if ok then
-					conform.format({
-						lsp_fallback = true,
-						async = false,
-						timeout_ms = 500,
-					})
-				else
-					vim.lsp.buf.format({ async = true })
-				end
-			end, opts)
+			keymaps.lsp({ buffer = bufnr })
+			keymaps.lsp_format({ buffer = bufnr })
 		end,
 		capabilities = capabilities,
 	}
@@ -196,7 +177,6 @@ return {
 		opts = {
 			server = {
 				on_attach = function(_, bufnr)
-					local opts = {}
 					vim.keymap.set("n", "<leader>ca", function()
 						vim.cmd.RustLsp("codeAction")
 					end, { desc = "Code Action", buffer = bufnr })
@@ -210,14 +190,7 @@ return {
 					-- )
 
 					-- lsp keymap
-					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-					vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-					vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
-					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+					keymaps.lsp({ buffer = bufnr })
 				end,
 				default_settings = {
 					-- rust-analyzer language server configuration
