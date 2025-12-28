@@ -4,12 +4,13 @@ local treesitter_options = {
 		"javascript",
 		"lua",
 		"markdown",
-		"python",
+		-- "python",
 		"rust",
-		"svelte",
+		-- "svelte",
 		"typescript",
 		"go",
 		"ruby",
+		"java",
 	},
 	sync_install = false,
 	highlight = { enable = true },
@@ -20,10 +21,10 @@ local mason_options = {
 	ensure_installed = {
 		"lua_ls",
 		"ts_ls",
-		"pyright",
-		"ruff",
+		-- "pyright",
+		-- "ruff",
 		"rust_analyzer",
-		"svelte",
+		-- "svelte",
 		"gopls",
 		"ruby_lsp",
 	},
@@ -32,11 +33,11 @@ local mason_options = {
 local mason_lsp_mapping = {
 	gopls = "gopls",
 	lua_ls = "lua-language-server",
-	pyright = "pyright",
-	ruff = "ruff",
+	-- pyright = "pyright",
+	-- ruff = "ruff",
 	rust_analyzer = "rust-analyzer",
 	stylua = "stylua",
-	svelte = "svelte-language-server",
+	-- svelte = "svelte-language-server",
 	ts_ls = "typescript-language-server",
 	ruby_lsp = "ruby-lsp",
 }
@@ -51,7 +52,7 @@ local keymaps = require("keymaps")
 
 local default_lspconfig = function(capabilities)
 	return {
-		on_attach = function()
+		on_attach = function(_, bufnr)
 			keymaps.lsp({ buffer = bufnr })
 			keymaps.lsp_format({ buffer = bufnr })
 		end,
@@ -65,11 +66,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		event = { "BufReadPre", "BufNewFile" },
-		config = function()
-			local configs = require("nvim-treesitter.configs")
-
-			configs.setup(treesitter_options)
-		end,
+		opts = treesitter_options,
 	},
 
 	-- lspconfig

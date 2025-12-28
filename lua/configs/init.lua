@@ -1,5 +1,5 @@
 local M = {
-	ai = { enabled = false },
+	ai = { enabled = true },
 	icons = {
 		kinds = {
 			Array         = " ",

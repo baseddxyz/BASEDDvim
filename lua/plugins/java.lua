@@ -17,10 +17,10 @@ end
 
 return {
 	-- Add java to treesitter.
-	{
-		"nvim-treesitter/nvim-treesitter",
-		opts = { ensure_installed = { "java" } },
-	},
+	-- {
+	-- 	"nvim-treesitter/nvim-treesitter",
+	-- 	opts = { ensure_installed = { "java" } },
+	-- },
 
 	-- Configure nvim-lspconfig to install the server automatically via mason, but
 	-- defer actually starting it to our configuration of nvim-jtdls below.
