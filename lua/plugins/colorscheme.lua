@@ -11,15 +11,15 @@ return {
 	-- 		vim.cmd('colorscheme everforest')
 	-- 	end,
 	-- },
-	-- {
-	-- 	"ellisonleao/gruvbox.nvim",
-	-- 	priority = 1000,
-	-- 	config = function(_, opts)
-	-- 		require("gruvbox").setup(opts)
-	-- 		vim.o.background = "dark"
-	-- 		vim.cmd("colorscheme gruvbox")
-	-- 	end,
-	-- },
+	{
+		"ellisonleao/gruvbox.nvim",
+		priority = 1000,
+		config = function(_, opts)
+			require("gruvbox").setup(opts)
+			vim.o.background = "dark"
+			vim.cmd("colorscheme gruvbox")
+		end,
+	},
 	-- {
 	-- 	"folke/tokyonight.nvim",
 	-- 	lazy = false,
@@ -92,32 +92,32 @@ return {
 	-- 		require("aether.hotreload").setup()
 	-- 	end,
 	-- },
-	{
-		"gthelding/monokai-pro.nvim",
-		priority = 1000,
-		opts = {
-			filter = "machine", -- classic | octagon | pro | machine | ristretto | spectrum
-			override = function()
-				return {
-					NonText = { fg = "#948a8b" },
-					MiniIconsGrey = { fg = "#948a8b" },
-					MiniIconsRed = { fg = "#fd6883" },
-					MiniIconsBlue = { fg = "#85dacc" },
-					MiniIconsGreen = { fg = "#adda78" },
-					MiniIconsYellow = { fg = "#f9cc6c" },
-					MiniIconsOrange = { fg = "#f38d70" },
-					MiniIconsPurple = { fg = "#a8a9eb" },
-					MiniIconsAzure = { fg = "#a8a9eb" },
-					MiniIconsCyan = { fg = "#85dacc" }, -- same value as MiniIconsBlue for consistency
-				}
-			end,
-			background_clear = { "float_win" },
-		},
-		config = function(_, opts)
-			require("monokai-pro").setup(opts)
-			vim.cmd.colorscheme("monokai-pro")
-		end,
-	},
+	-- {
+	-- 	"gthelding/monokai-pro.nvim",
+	-- 	priority = 1000,
+	-- 	opts = {
+	-- 		filter = "machine", -- classic | octagon | pro | machine | ristretto | spectrum
+	-- 		override = function()
+	-- 			return {
+	-- 				NonText = { fg = "#948a8b" },
+	-- 				MiniIconsGrey = { fg = "#948a8b" },
+	-- 				MiniIconsRed = { fg = "#fd6883" },
+	-- 				MiniIconsBlue = { fg = "#85dacc" },
+	-- 				MiniIconsGreen = { fg = "#adda78" },
+	-- 				MiniIconsYellow = { fg = "#f9cc6c" },
+	-- 				MiniIconsOrange = { fg = "#f38d70" },
+	-- 				MiniIconsPurple = { fg = "#a8a9eb" },
+	-- 				MiniIconsAzure = { fg = "#a8a9eb" },
+	-- 				MiniIconsCyan = { fg = "#85dacc" }, -- same value as MiniIconsBlue for consistency
+	-- 			}
+	-- 		end,
+	-- 		background_clear = { "float_win" },
+	-- 	},
+	-- 	config = function(_, opts)
+	-- 		require("monokai-pro").setup(opts)
+	-- 		vim.cmd.colorscheme("monokai-pro")
+	-- 	end,
+	-- },
 
 	-- {
 	-- 	"everviolet/nvim",
@@ -143,6 +143,15 @@ return {
 	-- 	config = function(_, opts)
 	-- 		require("evergarden").setup(opts)
 	-- 		vim.cmd("colorscheme evergarden")
+	-- 	end,
+	-- },
+	-- {
+	-- 	"oskarnurm/koda.nvim",
+	-- 	lazy = false, -- make sure we load this during startup if it is your main colorscheme
+	-- 	priority = 1000, -- make sure to load this before all the other start plugins
+	-- 	config = function()
+	-- 		-- require("koda").setup({ transparent = true })
+	-- 		vim.cmd("colorscheme koda")
 	-- 	end,
 	-- },
 }

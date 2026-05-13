@@ -100,7 +100,7 @@ return configs.ai
 			-- 	},
 			-- },
 			{
-				"qapquiz/sidekick.nvim",
+				"folke/sidekick.nvim",
 				opts = {
 					-- add any options here
 					cli = {
