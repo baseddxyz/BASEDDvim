@@ -25,6 +25,7 @@ deferred — see "Deferred" at the bottom.
 | 008  | Make 99's `md_files` find the repo's `AGENTS.md` | P2 | S | — | DONE (branch `advisor/008-mdfiles` @ `e262471`, verdict APPROVE) |
 | 009  | Add missing `desc` to 99 + toggleterm keymaps | P3 | S | — | DONE (branch `advisor/009-desc` @ `d9a6fcc`, verdict APPROVE) |
 | 010  | `:LspToggle` UI with persisted config (feature) | P3 | M | — | TODO |
+| 011  | Switch signature help to `gK`; restore `<C-k>` for tmux-nav | P2 | S | — | DONE (branch `advisor/011-gK` @ `3e2da8a`, verdict APPROVE; supersedes 007) |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale).
@@ -34,12 +35,14 @@ deepened correctness/consistency pass. See their files for the new findings
 (N1 Rust `<leader>ca` clobber, N3 `<C-k>` collision, N4 99 `AGENT.md`), plus
 the vetted subset of TECH-8.
 
-**Plan 010** is a user-requested feature (not an audit finding): a `:LspToggle`
-command backed by a persisted JSON disabled-set, with 5 locked design
-decisions (notably: blacklist-not-whitelist persistence, rust/jdtls excluded
-from v1, and `MasonInstallAll` kept intentionally orthogonal to toggles). It
-carries a spike step for the optional snacks multi-toggle picker with a robust
-`vim.ui.select` fallback as the committed v1.
+**Plan 011 corrects a defect from plan 007.** Plan 007 moved LSP signature
+help to insert mode to free `<C-k>` for tmux-nav, but that shadowed Vim's
+built-in insert-mode digraph key (`i_CTRL-K`). 011 instead remaps signature
+help to `gK` (normal mode, verified free) and leaves `<C-k>` for tmux-nav and
+`i_CTRL-K` for digraphs. Root-cause of the 007 mistake: its "key free?" check
+only looked for existing user mappings, not built-in Vim features — recorded as
+a vetting lesson. The 007 commit (`a1c7abf`) stays in history; 011 is the live
+resolution.
 
 ## Dependency notes
 
