@@ -368,6 +368,7 @@ return configs.ai
 						--- /foo/AGENT.md
 						--- assuming that /foo is project root (based on cwd)
 						md_files = {
+							"AGENTS.md",
 							"AGENT.md",
 						},
 					})
