@@ -101,7 +101,7 @@ git clone https://github.com/baseddxyz/BASEDDvim.git ~/.config/nvim
 | `gi` | n | Go to implementation |
 | `gr` | n | Find references |
 | `K` | n | Hover documentation |
-| `<C-k>` | i | Signature help |
+| `gK` | n | Signature help |
 | `<leader>D` | n | Go to type definition |
 | `<leader>ca` | n, v | Code action |
 | `<leader>rn` | n | Rename |
