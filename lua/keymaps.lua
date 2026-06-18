@@ -9,7 +9,7 @@ function M.lsp(opts)
 		{ "n", "gd", vim.lsp.buf.definition, opts },
 		{ "n", "K", vim.lsp.buf.hover, opts },
 		{ "n", "gi", vim.lsp.buf.implementation, opts },
-		{ "n", "<C-k>", vim.lsp.buf.signature_help, opts },
+		{ "i", "<C-k>", vim.lsp.buf.signature_help, opts },
 		{ "n", "<leader>D", vim.lsp.buf.type_definition, opts },
 		{ "n", "<leader>rn", vim.lsp.buf.rename, opts },
 		{ { "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts },
