@@ -37,8 +37,8 @@ map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
 vim.diagnostic.config({
-	virtual_text = true,
-	-- virtual_lines = true,
+	virtual_text = false,
+	virtual_lines = true,
 })
 
 vim.opt_local.conceallevel = 1

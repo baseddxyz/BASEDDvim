@@ -169,7 +169,6 @@ return {
 	{
 		"mrcjkb/rustaceanvim",
 		version = false,
-		lazy = false,
 		ft = { "rust" },
 		opts = {
 			server = {

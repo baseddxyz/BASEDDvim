@@ -230,7 +230,7 @@ return configs.ai
 			{
 				"sourcegraph/amp.nvim",
 				branch = "main",
-				lazy = false,
+				cmd = { "Amp" },
 				opts = { auto_start = true, log_level = "info" },
 			},
 			-- keys = {
