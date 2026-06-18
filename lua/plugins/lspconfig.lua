@@ -174,6 +174,9 @@ return {
 		opts = {
 			server = {
 				on_attach = function(_, bufnr)
+					-- lsp keymap (generic first, so the Rust-specific <leader>ca below wins)
+					keymaps.lsp({ buffer = bufnr })
+
 					vim.keymap.set("n", "<leader>ca", function()
 						vim.cmd.RustLsp("codeAction")
 					end, { desc = "Code Action", buffer = bufnr })
@@ -185,9 +188,6 @@ return {
 					-- 	end,
 					-- 	{ desc = "Rust debuggables", buffer = bufnr }
 					-- )
-
-					-- lsp keymap
-					keymaps.lsp({ buffer = bufnr })
 				end,
 				default_settings = {
 					-- rust-analyzer language server configuration
