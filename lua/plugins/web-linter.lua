@@ -11,10 +11,10 @@ return {
 			-- Events to trigger linter
 			events = { "BufWritePost", "BufReadPost", "InsertLeave" },
 			linters_by_ft = {
-				javascript = { 'biomejs' },
-				javascriptreact = { 'biomejs' },
-				typescript = { 'biomejs' },
-				typescriptreact = { 'biomejs' },
+				javascript = { 'biome' },
+				javascriptreact = { 'biome' },
+				typescript = { 'biome' },
+				typescriptreact = { 'biome' },
 			},
 		},
 		config = function(_, opts)
@@ -29,7 +29,7 @@ return {
 			lint.linters_by_ft = opts.linters_by_ft
 
 			vim.api.nvim_create_autocmd(
-				{ 'BufWritePost', 'BufEnter' },
+				opts.events,
 				{
 					callback = function()
 						lint.try_lint()
