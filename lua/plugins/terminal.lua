@@ -4,7 +4,7 @@ return {
 		version = '*',
 		config = function()
 			require('toggleterm').setup{}
-			vim.keymap.set('n', '<leader>tf', '<cmd>ToggleTerm direction=float<cr>')
+			vim.keymap.set('n', '<leader>tf', '<cmd>ToggleTerm direction=float<cr>', { desc = 'Toggle terminal (float)' })
 		end,
 	}
 }
