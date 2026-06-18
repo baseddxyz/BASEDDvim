@@ -26,6 +26,7 @@ deferred — see "Deferred" at the bottom.
 | 009  | Add missing `desc` to 99 + toggleterm keymaps | P3 | S | — | DONE (branch `advisor/009-desc` @ `d9a6fcc`, verdict APPROVE) |
 | 010  | `:LspToggle` UI with persisted config (feature) | P3 | M | — | TODO |
 | 011  | Switch signature help to `gK`; restore `<C-k>` for tmux-nav | P2 | S | — | DONE (branch `advisor/011-gK` @ `3e2da8a`, verdict APPROVE; supersedes 007) |
+| 012  | Lazy-load amp/bufferline, drop redundant rustaceanvim lazy, enable native `virtual_lines` | P2 | S | — | DONE (branch `advisor/012-lazy` @ `e0721d5`, verdict APPROVE) |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale).
