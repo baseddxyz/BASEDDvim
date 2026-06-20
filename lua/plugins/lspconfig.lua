@@ -43,7 +43,7 @@ local mason_lsp_mapping = {
 }
 
 local mason_formatters = {
-	ensure_installed = { "biome", "stylua" },
+	ensure_installed = { "oxfmt", "stylua" },
 }
 
 local rust_diagnostics = "rust-analyzer"
@@ -196,10 +196,10 @@ return {
 			conform.setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
-					javascript = { "biome-check" },
-					javascriptreact = { "biome-check" },
-					typescript = { "biome" },
-					typescriptreact = { "biome-check" },
+					javascript = { "oxfmt" },
+					javascriptreact = { "oxfmt" },
+					typescript = { "oxfmt" },
+					typescriptreact = { "oxfmt" },
 					java = { "google-java-format" },
 				},
 				format_on_save = {

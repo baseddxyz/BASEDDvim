@@ -1,6 +1,6 @@
 local linters = {
 	-- web
-	'biome',
+	'oxlint',
 }
 
 return {
@@ -11,10 +11,10 @@ return {
 			-- Events to trigger linter
 			events = { "BufWritePost", "BufReadPost", "InsertLeave" },
 			linters_by_ft = {
-				javascript = { 'biome' },
-				javascriptreact = { 'biome' },
-				typescript = { 'biome' },
-				typescriptreact = { 'biome' },
+				javascript = { 'oxlint' },
+				javascriptreact = { 'oxlint' },
+				typescript = { 'oxlint' },
+				typescriptreact = { 'oxlint' },
 			},
 		},
 		config = function(_, opts)
