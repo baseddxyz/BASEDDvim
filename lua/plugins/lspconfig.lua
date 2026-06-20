@@ -6,7 +6,6 @@ local treesitter_options = {
 		"markdown",
 		"python",
 		"rust",
-		-- "svelte",
 		"typescript",
 		"go",
 		"ruby",
