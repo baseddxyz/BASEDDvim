@@ -30,6 +30,7 @@ deferred — see "Deferred" at the bottom.
 | 013  | Restructure LSP config into `lsp/<name>.lua` + `after/ftplugin/` (borrow from paketo) | P2 | M | — | DONE (branch `advisor/013-lsp` @ `2afa5c7`, verdict APPROVE) |
 | 014  | Tier diagnostics (signs/underline/current-line virtual_text; supersedes 012's virtual_lines) | P3 | S | — | DONE (branch `advisor/014-diag` @ `a5fddf1`, verdict APPROVE) |
 | 015  | Resolve ts_ls Vue plugin path per-attach via `before_init` (fix N2) | P2 | S | — | DONE (branch `advisor/015-vue` @ `c28a188`, verdict APPROVE) |
+| 016  | Switch JS/TS lint+format to oxc stack (oxlint + oxfmt); fixes biome regression | P1 | S | — | DONE (branch `advisor/016-oxc` @ `daac270`, verdict APPROVE; supersedes 003) |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale).
@@ -92,6 +93,8 @@ Recorded so they are not lost and not blindly re-audited next time:
   `typescript = { "biome" }` vs `biome-check` elsewhere): MED confidence it's
   unintended. Related to but separate from plan 003 (different file, formatter
   vs linter).
+  **RESOLVED by plan 016** — the oxc swap makes all four web filetypes use
+  `oxfmt` uniformly, so the biome/biome-check inconsistency is moot.
 - **TECH-8 — several `vim.keymap.set` calls omit `desc`**: PARTIALLY planned
   as 009. Vetting corrected the record: `lspconfig.lua:177` (rust `<leader>ca`)
   and `:260` (`<leader>fM`) ALREADY have `desc` — they were false positives.
