@@ -31,6 +31,7 @@ deferred — see "Deferred" at the bottom.
 | 014  | Tier diagnostics (signs/underline/current-line virtual_text; supersedes 012's virtual_lines) | P3 | S | — | DONE (branch `advisor/014-diag` @ `a5fddf1`, verdict APPROVE) |
 | 015  | Resolve ts_ls Vue plugin path per-attach via `before_init` (fix N2) | P2 | S | — | DONE (branch `advisor/015-vue` @ `c28a188`, verdict APPROVE) |
 | 016  | Switch JS/TS lint+format to oxc stack (oxlint + oxfmt); fixes biome regression | P1 | S | — | DONE (branch `advisor/016-oxc` @ `daac270`, verdict APPROVE; supersedes 003) |
+| 017  | Add Python support via astral stack (ruff + ty) | P2 | S | — | DONE (branch `advisor/017-python` @ `4e01b02`, verdict APPROVE) |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale).
