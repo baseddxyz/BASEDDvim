@@ -29,6 +29,7 @@ deferred — see "Deferred" at the bottom.
 | 012  | Lazy-load amp/bufferline, drop redundant rustaceanvim lazy, enable native `virtual_lines` | P2 | S | — | DONE (branch `advisor/012-lazy` @ `e0721d5`, verdict APPROVE; **diagnostic portion superseded by 014**) |
 | 013  | Restructure LSP config into `lsp/<name>.lua` + `after/ftplugin/` (borrow from paketo) | P2 | M | — | DONE (branch `advisor/013-lsp` @ `2afa5c7`, verdict APPROVE) |
 | 014  | Tier diagnostics (signs/underline/current-line virtual_text; supersedes 012's virtual_lines) | P3 | S | — | DONE (branch `advisor/014-diag` @ `a5fddf1`, verdict APPROVE) |
+| 015  | Resolve ts_ls Vue plugin path per-attach via `before_init` (fix N2) | P2 | S | — | DONE (branch `advisor/015-vue` @ `c28a188`, verdict APPROVE) |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale).
@@ -102,6 +103,12 @@ Recorded so they are not lost and not blindly re-audited next time:
   or after `:cd`. Held out because the fix carries MED risk + a design choice
   (resolve at config time vs per-attach via `root_dir`). Worth its own plan
   when the maintainer can weigh in on the resolution.
+  **FIXED by plan 015** (`c28a188`): now resolved per-attach via `before_init`
+  reading `params.rootUri`, with a `filereadable` guard so plain-JS/TS
+  projects skip it cleanly. De-risked by reading the nvim runtime source for
+  the `before_init` contract and consulting the advisor on the
+  `params`-vs-`config` mutation subtlety (mutating config leaks across
+  attaches).
 - **DX-10 — no `.stylua.toml`**: AGENTS.md documents the workaround but nothing
   enforces tabs. A 3-line `.stylua.toml` fixes it.
 - **DX-11 — `bufferline.nvim` not lazy-loaded** (`bufferline.lua`): loads on
