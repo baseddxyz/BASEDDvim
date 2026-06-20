@@ -42,6 +42,10 @@ local mason_lsp_mapping = {
 	ruby_lsp = "ruby-lsp",
 }
 
+local mason_linters = {
+	ensure_installed = { "oxlint" },
+}
+
 local mason_formatters = {
 	ensure_installed = { "oxfmt", "stylua" },
 }
@@ -110,6 +114,8 @@ return {
 								.. table.concat(mason_formatters.ensure_installed, " ")
 								.. " "
 								.. table.concat(mason_servers, " ")
+								.. " "
+								.. table.concat(mason_linters.ensure_installed, " ")
 						)
 					end, {})
 				end,
