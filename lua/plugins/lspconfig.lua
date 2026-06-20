@@ -4,7 +4,7 @@ local treesitter_options = {
 		"javascript",
 		"lua",
 		"markdown",
-		-- "python",
+		"python",
 		"rust",
 		-- "svelte",
 		"typescript",
@@ -21,10 +21,9 @@ local mason_options = {
 	ensure_installed = {
 		"lua_ls",
 		"ts_ls",
-		-- "pyright",
-		-- "ruff",
+		"ruff",
+		"ty",
 		"rust_analyzer",
-		-- "svelte",
 		"gopls",
 		"ruby_lsp",
 	},
@@ -33,11 +32,10 @@ local mason_options = {
 local mason_lsp_mapping = {
 	gopls = "gopls",
 	lua_ls = "lua-language-server",
-	-- pyright = "pyright",
-	-- ruff = "ruff",
+	ruff = "ruff",
+	ty = "ty",
 	rust_analyzer = "rust-analyzer",
 	stylua = "stylua",
-	-- svelte = "svelte-language-server",
 	ts_ls = "typescript-language-server",
 	ruby_lsp = "ruby-lsp",
 }
@@ -85,7 +83,7 @@ return {
 			-- Enable the loop-managed servers. rust_analyzer is intentionally
 			-- omitted: rustaceanvim manages it via vim.g.rustaceanvim.
 			-- (Verified: vim.lsp.enable accepts a list.)
-			vim.lsp.enable({ "lua_ls", "ts_ls", "gopls", "ruby_lsp" })
+			vim.lsp.enable({ "lua_ls", "ts_ls", "gopls", "ruby_lsp", "ruff", "ty" })
 		end,
 		dependencies = {
 			{ "saghen/blink.cmp" },
@@ -207,6 +205,7 @@ return {
 					typescript = { "oxfmt" },
 					typescriptreact = { "oxfmt" },
 					java = { "google-java-format" },
+					python = { "ruff_organize_imports", "ruff_format" },
 				},
 				format_on_save = {
 					timeout_ms = 500,
