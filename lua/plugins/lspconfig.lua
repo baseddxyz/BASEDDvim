@@ -50,16 +50,6 @@ local rust_diagnostics = "rust-analyzer"
 
 local keymaps = require("keymaps")
 
-local default_lspconfig = function(capabilities)
-	return {
-		on_attach = function(_, bufnr)
-			keymaps.lsp({ buffer = bufnr })
-			keymaps.lsp_format({ buffer = bufnr })
-		end,
-		capabilities = capabilities,
-	}
-end
-
 return {
 	-- treesitter
 	{
@@ -76,60 +66,22 @@ return {
 		config = function()
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-			for _, lsp in ipairs(mason_options.ensure_installed) do
-				if lsp == "ts_ls" then
-					vim.lsp.config(
-						lsp,
-						vim.tbl_deep_extend("force", default_lspconfig(capabilities), {
-							init_options = {
-								plugins = {
-									{
-										name = "@vue/typescript-plugin",
-										location = vim.fn.getcwd() .. "/node_modules/@vue/typescript-plugin",
-										languages = {
-											"javascript",
-											"javascriptreact",
-											"typescript",
-											"typescriptreact",
-											"vue",
-										},
-									},
-								},
-							},
-							filetypes = {
-								"javascript",
-								"javascriptreact",
-								"typescript",
-								"typescriptreact",
-								"vue",
-							},
-						})
-					)
-				elseif lsp == "pyright" then
-					vim.lsp.config(
-						lsp,
-						vim.tbl_deep_extend("force", default_lspconfig(capabilities), {
-							settings = {
-								pyright = {
-									-- Using Ruff's import organizer
-									disableOrganizeImports = true,
-								},
-								python = {
-									analysis = {
-										-- Ignore all files for analysis to exclusively use Ruff for linting
-										ignore = { "*" },
-									},
-								},
-							},
-						})
-					)
-				elseif lsp ~= "rust_analyzer" then
-					vim.lsp.config(lsp, default_lspconfig(capabilities))
-				end
+			-- Shared defaults applied to every server via wildcard merge.
+			-- Each server's specifics live in lsp/<name>.lua (auto-discovered).
+			-- Verified in nvim 0.12: wildcard on_attach + capabilities propagate
+			-- to named configs loaded from lsp/, while server-specific fields win.
+			vim.lsp.config("*", {
+				on_attach = function(_, bufnr)
+					keymaps.lsp({ buffer = bufnr })
+					keymaps.lsp_format({ buffer = bufnr })
+				end,
+				capabilities = capabilities,
+			})
 
-				-- enable LSP
-				vim.lsp.enable(lsp)
-			end
+			-- Enable the loop-managed servers. rust_analyzer is intentionally
+			-- omitted: rustaceanvim manages it via vim.g.rustaceanvim.
+			-- (Verified: vim.lsp.enable accepts a list.)
+			vim.lsp.enable({ "lua_ls", "ts_ls", "gopls", "ruby_lsp" })
 		end,
 		dependencies = {
 			{ "saghen/blink.cmp" },
