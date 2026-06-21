@@ -1,0 +1,2 @@
+-- gopls config. Shared on_attach + capabilities come from the wildcard default.
+return {}

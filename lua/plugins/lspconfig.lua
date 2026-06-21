@@ -4,9 +4,8 @@ local treesitter_options = {
 		"javascript",
 		"lua",
 		"markdown",
-		-- "python",
+		"python",
 		"rust",
-		-- "svelte",
 		"typescript",
 		"go",
 		"ruby",
@@ -21,10 +20,9 @@ local mason_options = {
 	ensure_installed = {
 		"lua_ls",
 		"ts_ls",
-		-- "pyright",
-		-- "ruff",
+		"ruff",
+		"ty",
 		"rust_analyzer",
-		-- "svelte",
 		"gopls",
 		"ruby_lsp",
 	},
@@ -33,32 +31,25 @@ local mason_options = {
 local mason_lsp_mapping = {
 	gopls = "gopls",
 	lua_ls = "lua-language-server",
-	-- pyright = "pyright",
-	-- ruff = "ruff",
+	ruff = "ruff",
+	ty = "ty",
 	rust_analyzer = "rust-analyzer",
 	stylua = "stylua",
-	-- svelte = "svelte-language-server",
 	ts_ls = "typescript-language-server",
 	ruby_lsp = "ruby-lsp",
 }
 
+local mason_linters = {
+	ensure_installed = { "oxlint" },
+}
+
 local mason_formatters = {
-	ensure_installed = { "biome", "stylua" },
+	ensure_installed = { "oxfmt", "stylua" },
 }
 
 local rust_diagnostics = "rust-analyzer"
 
 local keymaps = require("keymaps")
-
-local default_lspconfig = function(capabilities)
-	return {
-		on_attach = function(_, bufnr)
-			keymaps.lsp({ buffer = bufnr })
-			keymaps.lsp_format({ buffer = bufnr })
-		end,
-		capabilities = capabilities,
-	}
-end
 
 return {
 	-- treesitter
@@ -76,60 +67,22 @@ return {
 		config = function()
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-			for _, lsp in ipairs(mason_options.ensure_installed) do
-				if lsp == "ts_ls" then
-					vim.lsp.config(
-						lsp,
-						vim.tbl_deep_extend("force", default_lspconfig(capabilities), {
-							init_options = {
-								plugins = {
-									{
-										name = "@vue/typescript-plugin",
-										location = vim.fn.getcwd() .. "/node_modules/@vue/typescript-plugin",
-										languages = {
-											"javascript",
-											"javascriptreact",
-											"typescript",
-											"typescriptreact",
-											"vue",
-										},
-									},
-								},
-							},
-							filetypes = {
-								"javascript",
-								"javascriptreact",
-								"typescript",
-								"typescriptreact",
-								"vue",
-							},
-						})
-					)
-				elseif lsp == "pyright" then
-					vim.lsp.config(
-						lsp,
-						vim.tbl_deep_extend("force", default_lspconfig(capabilities), {
-							settings = {
-								pyright = {
-									-- Using Ruff's import organizer
-									disableOrganizeImports = true,
-								},
-								python = {
-									analysis = {
-										-- Ignore all files for analysis to exclusively use Ruff for linting
-										ignore = { "*" },
-									},
-								},
-							},
-						})
-					)
-				elseif lsp ~= "rust_analyzer" then
-					vim.lsp.config(lsp, default_lspconfig(capabilities))
-				end
+			-- Shared defaults applied to every server via wildcard merge.
+			-- Each server's specifics live in lsp/<name>.lua (auto-discovered).
+			-- Verified in nvim 0.12: wildcard on_attach + capabilities propagate
+			-- to named configs loaded from lsp/, while server-specific fields win.
+			vim.lsp.config("*", {
+				on_attach = function(_, bufnr)
+					keymaps.lsp({ buffer = bufnr })
+					keymaps.lsp_format({ buffer = bufnr })
+				end,
+				capabilities = capabilities,
+			})
 
-				-- enable LSP
-				vim.lsp.enable(lsp)
-			end
+			-- Enable the loop-managed servers. rust_analyzer is intentionally
+			-- omitted: rustaceanvim manages it via vim.g.rustaceanvim.
+			-- (Verified: vim.lsp.enable accepts a list.)
+			vim.lsp.enable({ "lua_ls", "ts_ls", "gopls", "ruby_lsp", "ruff", "ty" })
 		end,
 		dependencies = {
 			{ "saghen/blink.cmp" },
@@ -158,6 +111,8 @@ return {
 								.. table.concat(mason_formatters.ensure_installed, " ")
 								.. " "
 								.. table.concat(mason_servers, " ")
+								.. " "
+								.. table.concat(mason_linters.ensure_installed, " ")
 						)
 					end, {})
 				end,
@@ -169,11 +124,13 @@ return {
 	{
 		"mrcjkb/rustaceanvim",
 		version = false,
-		lazy = false,
 		ft = { "rust" },
 		opts = {
 			server = {
 				on_attach = function(_, bufnr)
+					-- lsp keymap (generic first, so the Rust-specific <leader>ca below wins)
+					keymaps.lsp({ buffer = bufnr })
+
 					vim.keymap.set("n", "<leader>ca", function()
 						vim.cmd.RustLsp("codeAction")
 					end, { desc = "Code Action", buffer = bufnr })
@@ -185,9 +142,6 @@ return {
 					-- 	end,
 					-- 	{ desc = "Rust debuggables", buffer = bufnr }
 					-- )
-
-					-- lsp keymap
-					keymaps.lsp({ buffer = bufnr })
 				end,
 				default_settings = {
 					-- rust-analyzer language server configuration
@@ -245,11 +199,12 @@ return {
 			conform.setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
-					javascript = { "biome-check" },
-					javascriptreact = { "biome-check" },
-					typescript = { "biome" },
-					typescriptreact = { "biome-check" },
+					javascript = { "oxfmt" },
+					javascriptreact = { "oxfmt" },
+					typescript = { "oxfmt" },
+					typescriptreact = { "oxfmt" },
 					java = { "google-java-format" },
+					python = { "ruff_organize_imports", "ruff_format" },
 				},
 				format_on_save = {
 					timeout_ms = 500,

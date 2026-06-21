@@ -230,7 +230,7 @@ return configs.ai
 			{
 				"sourcegraph/amp.nvim",
 				branch = "main",
-				lazy = false,
+				cmd = { "Amp" },
 				opts = { auto_start = true, log_level = "info" },
 			},
 			-- keys = {
@@ -368,6 +368,7 @@ return configs.ai
 						--- /foo/AGENT.md
 						--- assuming that /foo is project root (based on cwd)
 						md_files = {
+							"AGENTS.md",
 							"AGENT.md",
 						},
 					})
@@ -375,7 +376,7 @@ return configs.ai
 					-- Create your own short cuts for the different types of actions
 					vim.keymap.set("n", "<leader>9f", function()
 						_99.fill_in_function()
-					end)
+					end, { desc = "99: Fill in function" })
 					-- take extra note that i have visual selection only in v mode
 					-- technically whatever your last visual selection is, will be used
 					-- so i have this set to visual mode so i dont screw up and use an
@@ -385,12 +386,12 @@ return configs.ai
 					-- so just prepare for it now
 					vim.keymap.set("v", "<leader>9v", function()
 						_99.visual()
-					end)
+					end, { desc = "99: Visual selection" })
 
 					--- if you have a request you dont want to make any changes, just cancel it
 					vim.keymap.set("v", "<leader>9s", function()
 						_99.stop_all_requests()
-					end)
+					end, { desc = "99: Stop all requests" })
 
 					--- Example: Using rules + actions for custom behaviors
 					--- Create a rule file like ~/.rules/debug.md that defines custom behavior.
@@ -398,7 +399,7 @@ return configs.ai
 					--- throughout a function to help debug its execution flow.
 					vim.keymap.set("n", "<leader>9fd", function()
 						_99.fill_in_function()
-					end)
+					end, { desc = "99: Fill in function (debug rule)" })
 				end,
 			},
 		}

@@ -18,13 +18,13 @@ git clone https://github.com/baseddxyz/BASEDDvim.git ~/.config/nvim
 
 ### AI & Code Completion
 - **[supermaven-nvim](https://github.com/supermaven-inc/supermaven-nvim)** - AI-powered inline code completion
-- **[sidekick.nvim](https://github.com/qapquiz/sidekick.nvim)** - CLI integration for AI tools (Claude, etc.)
+- **[sidekick.nvim](https://github.com/folke/sidekick.nvim)** - CLI integration for AI tools (Claude, etc.)
 - **[amp.nvim](https://github.com/sourcegraph/amp.nvim)** - Sourcegraph's AI code assistant
 - **[99](https://github.com/ThePrimeagen/99)** - AI-powered code refactoring with SKILL.md support
 
 ### Editor UI & Theme
 - **[bufferline.nvim](https://github.com/akinsho/bufferline.nvim)** - Buffer tabline
-- **[monokai-pro.nvim](https://github.com/gthelding/monokai-pro.nvim)** - Monokai Pro colorscheme (machine filter)
+- **[gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)** - Gruvbox colorscheme
 - **[smear-cursor.nvim](https://github.com/sphamba/smear-cursor.nvim)** - Smooth cursor animation
 - **[trouble.nvim](https://github.com/folke/trouble.nvim)** - Pretty diagnostics, references, and more
 
@@ -101,7 +101,7 @@ git clone https://github.com/baseddxyz/BASEDDvim.git ~/.config/nvim
 | `gi` | n | Go to implementation |
 | `gr` | n | Find references |
 | `K` | n | Hover documentation |
-| `<C-k>` | n | Signature help |
+| `gK` | n | Signature help |
 | `<leader>D` | n | Go to type definition |
 | `<leader>ca` | n, v | Code action |
 | `<leader>rn` | n | Rename |

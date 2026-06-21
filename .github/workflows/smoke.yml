@@ -1,0 +1,26 @@
+name: smoke
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Neovim
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+
+      - name: Install plugins (lazy.nvim)
+        run: |
+          ISOLATED="$(mktemp -d)"
+          ln -s "$PWD" "$ISOLATED/nvim"
+          XDG_CONFIG_HOME="$ISOLATED" nvim --headless "+Lazy! sync" +qa
+
+      - name: Smoke test
+        run: scripts/smoke.sh

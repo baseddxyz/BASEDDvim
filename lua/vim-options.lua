@@ -36,9 +36,17 @@ map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
 map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
 map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
+-- Tiered diagnostic display (model borrowed from baseddxyz/paketo):
+-- - underline everything (HINT..ERROR) so anything off is always visible
+-- - signs in the gutter for WARN+ERROR
+-- - inline virtual text ONLY for ERROR, ONLY on the current line
+-- - no updates while typing (stable view)
 vim.diagnostic.config({
-	virtual_text = true,
-	-- virtual_lines = true,
+	signs = { priority = 9999, severity = { min = "WARN", max = "ERROR" } },
+	underline = { severity = { min = "HINT", max = "ERROR" } },
+	virtual_lines = false,
+	virtual_text = { current_line = true, severity = { min = "ERROR", max = "ERROR" } },
+	update_in_insert = false,
 })
 
-vim.opt_local.conceallevel = 1
+vim.opt.conceallevel = 1
