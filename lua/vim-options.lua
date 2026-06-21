@@ -49,4 +49,4 @@ vim.diagnostic.config({
 	update_in_insert = false,
 })
 
-vim.opt_local.conceallevel = 1
+vim.opt.conceallevel = 1

@@ -87,6 +87,7 @@ Recorded so they are not lost and not blindly re-audited next time:
   only affects the transient startup buffer; intent was a global default. Low
   impact, trivial fix (`vim.opt.conceallevel = 1`). Fold into any future
   `vim-options.lua` edit.
+  **RESOLVED** — switched to `vim.opt.conceallevel = 1` in `lua/vim-options.lua:52`.
 - **TECH-6 — ~558 lines (33%) of commented-out "alternative palette" code**
   (`ai.lua`: 257, `colorscheme.lua`: 145): best done *after* the maintainer
   decides the AI-stack and theme direction, otherwise it just regrows.
