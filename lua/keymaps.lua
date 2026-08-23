@@ -16,27 +16,9 @@ function M.lsp(opts)
 		{ "n", "gr", vim.lsp.buf.references, opts },
 	}
 
-	-- Apply keymaps using vim.keymap.set for now (can switch to Snacks later)
 	for _, keymap in ipairs(keymaps) do
 		vim.keymap.set(keymap[1], keymap[2], keymap[3], keymap[4])
 	end
-end
-
--- Format keymap (optional, used by some LSP clients)
-function M.lsp_format(opts)
-	opts = opts or {}
-	vim.keymap.set("n", "<leader>fm", function()
-		local ok, conform = pcall(require, "conform")
-		if ok then
-			conform.format({
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 500,
-			})
-		else
-			vim.lsp.buf.format({ async = true })
-		end
-	end, opts)
 end
 
 return M

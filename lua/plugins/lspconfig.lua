@@ -36,7 +36,6 @@ local mason_tools = {
 	"jdtls",
 	-- formatters / linters
 	"stylua",
-	"biome",
 	"google-java-format",
 }
 
@@ -48,7 +47,6 @@ local default_lspconfig = function(capabilities)
 	return {
 		on_attach = function(_, bufnr)
 			keymaps.lsp({ buffer = bufnr })
-			keymaps.lsp_format({ buffer = bufnr })
 		end,
 		capabilities = capabilities,
 	}
@@ -163,7 +161,6 @@ return {
 	{
 		"mrcjkb/rustaceanvim",
 		version = false,
-		lazy = false,
 		ft = { "rust" },
 		opts = {
 			server = {
@@ -239,10 +236,10 @@ return {
 			conform.setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
-					javascript = { "biome-check" },
-					javascriptreact = { "biome-check" },
-					typescript = { "biome" },
-					typescriptreact = { "biome-check" },
+					javascript = { "oxfmt" },
+					javascriptreact = { "oxfmt" },
+					typescript = { "oxfmt" },
+					typescriptreact = { "oxfmt" },
 					java = { "google-java-format" },
 				},
 				format_on_save = {
@@ -251,7 +248,7 @@ return {
 				},
 			})
 
-			vim.keymap.set({ "n", "v" }, "<leader>fM", function()
+			vim.keymap.set({ "n", "v" }, "<leader>fm", function()
 				conform.format({
 					lsp_fallback = true,
 					async = false,

@@ -120,7 +120,6 @@ return {
 					if client and client.name == "jdtls" then
 						local keymaps = require("keymaps")
 						keymaps.lsp({ buffer = args.buf })
-						keymaps.lsp_format({ buffer = args.buf })
 
 						-- User can set additional keymaps in opts.on_attach
 						if opts.on_attach then

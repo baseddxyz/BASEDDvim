@@ -1,9 +1,23 @@
-vim.cmd("set noexpandtab")
-vim.cmd("set tabstop=2")
-vim.cmd("set softtabstop=2")
-vim.cmd("set shiftwidth=2")
+vim.opt.expandtab = false
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
 
-vim.cmd("set relativenumber")
+vim.opt.relativenumber = true
+
+-- search
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- persistence / responsiveness
+vim.opt.undofile = true
+vim.opt.updatetime = 250
+
+-- window behavior
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+
+vim.opt.termguicolors = true
 
 vim.g.mapleader = " "
 
@@ -12,7 +26,7 @@ local map = vim.keymap.set
 
 -- buffer
 map("n", "<TAB>", "<cmd>bnext<cr>", { desc = "Go to next buffer" })
-map("n", "<S-TAB>", "<cmd>bprevious<cr>", { desc = "Go to previes buffer" })
+map("n", "<S-TAB>", "<cmd>bprevious<cr>", { desc = "Go to previous buffer" })
 map("n", "<leader>x", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
 map("n", "<leader>X", "<cmd>bd!<cr>", { desc = "Force Delete Buffer" })
 

@@ -15,10 +15,10 @@ Personal Neovim configuration, built on **lazy.nvim**, **blink.cmp**, and **snac
 | Concern | File | Notes |
 |---|---|---|
 | Completion | `blink.lua` | blink.cmp + blink.compat; Supermaven source merged in only when `configs.ai.enabled` via `vim.tbl_deep_extend` |
-| LSP / TS / Mason / conform | `lspconfig.lua` | treesitter is the **main-branch rewrite**: `require('nvim-treesitter').install(parsers)` + `FileType` autocmd calling `vim.treesitter.start()` and setting `indentexpr` (needs the `tree-sitter` CLI — installed via mise). Generic enable loop over `servers`; **rust_analyzer is NOT in it** (rustaceanvim owns rust and disables lspconfig's copy) and jdtls is installed but never enabled (nvim-jdtls starts it). Mason tools (servers + formatters + `jdtls`, `google-java-format`, `biome`, `stylua`) are installed declaratively by `mason-tool-installer.nvim` |
+| LSP / TS / Mason / conform | `lspconfig.lua` | treesitter is the **main-branch rewrite**: `require('nvim-treesitter').install(parsers)` + `FileType` autocmd calling `vim.treesitter.start()` and setting `indentexpr` (needs the `tree-sitter` CLI — installed via mise). Generic enable loop over `servers`; **rust_analyzer is NOT in it** (rustaceanvim owns rust and disables lspconfig's copy) and jdtls is installed but never enabled (nvim-jdtls starts it). Mason tools (servers + formatters + `jdtls`, `google-java-format`, `stylua`) are installed declaratively by `mason-tool-installer.nvim` |
 | Rust | `lspconfig.lua` (rustaceanvim) | `<leader>ca` → RustLsp codeAction |
 | Java | `java.lua` | nvim-jdtls setup; defers `jdtls` from nvim-lspconfig to avoid duplicate servers |
-| Linting | `web-linter.lua` | nvim-lint + biome; auto-`MasonInstall`s missing linters |
+| Linting | `web-linter.lua` | nvim-lint + oxlint; JS/TS formatting is `oxfmt` via conform (both installed as bun globals in `~/.bun/bin` — mise's npm backend currently fails on them) |
 | AI | `ai.lua` | sidekick.nvim (zellij mux) + ThePrimeagen/99; entire spec is `configs.ai.enabled`-gated |
 | Picker/rename/dim/indent | `snacks.lua` | `<leader>ff/fw/fb`, `<leader>rr`, `<leader>y` |
 | Diagnostics UI | `coding.lua` | trouble.nvim |

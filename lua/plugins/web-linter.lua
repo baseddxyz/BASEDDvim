@@ -6,10 +6,10 @@ return {
 			-- Events to trigger linter
 			events = { "BufWritePost", "BufEnter", "InsertLeave" },
 			linters_by_ft = {
-				javascript = { "biomejs" },
-				javascriptreact = { "biomejs" },
-				typescript = { "biomejs" },
-				typescriptreact = { "biomejs" },
+				javascript = { "oxlint" },
+				javascriptreact = { "oxlint" },
+				typescript = { "oxlint" },
+				typescriptreact = { "oxlint" },
 			},
 		},
 		config = function(_, opts)
