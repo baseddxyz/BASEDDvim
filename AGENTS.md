@@ -53,6 +53,9 @@ There is no test suite. Minimum checks before committing:
 
 ```sh
 # Headless smoke test — must exit 0 with no errors in output
+# NOTE: headless (and `script`-pty) sessions never fire UIEnter, so VeryLazy-gated
+# plugins (which-key, img-clip, …) can't be validated this way — they only load in
+# a real interactive terminal. To simulate: -c 'doautocmd UIEnter' then 'doautocmd VimEnter'.
 nvim --headless "+Lazy! sync" +qa
 
 # Load a specific config module
