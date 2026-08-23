@@ -22,23 +22,6 @@ return {
 	-- 	opts = { ensure_installed = { "java" } },
 	-- },
 
-	-- Configure nvim-lspconfig to install the server automatically via mason, but
-	-- defer actually starting it to our configuration of nvim-jtdls below.
-	{
-		"neovim/nvim-lspconfig",
-		opts = {
-			-- make sure mason installs the server
-			servers = {
-				jdtls = {},
-			},
-			setup = {
-				jdtls = function()
-					return true -- avoid duplicate servers
-				end,
-			},
-		},
-	},
-
 	-- Set up nvim-jdtls to attach to java files.
 	{
 		"mfussenegger/nvim-jdtls",
@@ -136,8 +119,8 @@ return {
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 					if client and client.name == "jdtls" then
 						local keymaps = require("keymaps")
-						keymaps.lsp({ buffer = bufnr })
-						keymaps.lsp_format({ buffer = bufnr })
+						keymaps.lsp({ buffer = args.buf })
+						keymaps.lsp_format({ buffer = args.buf })
 
 						-- User can set additional keymaps in opts.on_attach
 						if opts.on_attach then

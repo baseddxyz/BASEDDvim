@@ -41,4 +41,11 @@ vim.diagnostic.config({
 	-- virtual_lines = true,
 })
 
-vim.opt_local.conceallevel = 1
+-- conceal markers only in filetypes that benefit from it
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "markdown", "json", "jsonc" },
+	callback = function()
+		-- conceallevel is window-local; FileType fires in the buffer's window
+		vim.wo.conceallevel = 1
+	end,
+})

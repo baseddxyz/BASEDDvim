@@ -1,170 +1,68 @@
-# BASEDDvim Agent Guidelines
+# AGENTS.md
 
-A personal Neovim distribution by `baseddxyz`, managed by **lazy.nvim**, written in **LuaJIT 5.1**. It targets modern Neovim (uses the `vim.lsp.config()` / `vim.lsp.enable()` API) and is installed by cloning into `~/.config/nvim`.
+Personal Neovim configuration, built on **lazy.nvim**, **blink.cmp**, and **snacks.nvim**. Everything lives under `lua/`; there is no `after/`, `ftplugin/`, or Vimscript beyond a few `vim.cmd` calls.
 
-## Repository Layout
+## Layout
 
-```
-init.lua                 # bootstraps lazy.nvim, requires "vim-options", then { import = "plugins" }
-lua/
-├── vim-options.lua      # global options + buffer/diagnostic keymaps (leader = <space>)
-├── keymaps.lua          # shared helpers: M.lsp() and M.lsp_format() for buffer-local LSP keymaps
-├── configs/
-│   └── init.lua         # feature flags (ai.enabled) + icon kind table
-└── plugins/             # lazy.nvim specs, auto-discovered via { import = "plugins" }
-    ├── init.lua         # empty module placeholder
-    ├── ai.lua           # supermaven, sidekick.nvim, amp.nvim, 99 (feature-flagged)
-    ├── blink.lua        # blink.cmp + blink.compat (merges supermaven when ai.enabled)
-    ├── bufferline.lua   # buffer tabline
-    ├── coding.lua       # trouble.nvim
-    ├── colorscheme.lua  # gruvbox.nvim is active; many alternatives commented out
-    ├── flash.lua        # flash.nvim navigation
-    ├── img-clip.lua     # clipboard image paste
-    ├── java.lua         # nvim-jdtls wrapper (overrides lspconfig for java)
-    ├── lazydev.lua      # nvim lua dev environment (+ luvit-meta for vim.uv types)
-    ├── lspconfig.lua    # treesitter, nvim-lspconfig, mason.nvim, rustaceanvim, conform.nvim
-    ├── mini.lua         # the nvim-mini/* suite (icons, starter, statusline, files, pairs, ...)
-    ├── note-taking.lua  # currently empty (obsidian/checkmate commented out)
-    ├── qol.lua          # smear-cursor
-    ├── snacks.lua       # snacks.nvim (picker, rename, dim, indent, image)
-    ├── terminal.lua     # toggleterm.nvim
-    ├── tmux.lua         # vim-tmux-navigator
-    └── web-linter.lua   # nvim-lint (biome for JS/TS)
-lazy-lock.json           # pinned plugin versions — do not hand-edit
-.luarc.json              # declares `vim` as a global for lua_ls
-```
+- `init.lua` — bootstraps `lazy.nvim` (clones stable branch on first run), then loads `vim-options` and imports the whole `lua/plugins/` directory as the plugin spec.
+- `lua/vim-options.lua` — global options, `vim.g.mapleader = " "`, buffer/diagnostic keymaps (`<TAB>`/`<S-TAB>`, `<leader>x/X`, `]d`/`[d`/`]e`/`[e`/`]w`/`[w`, `<leader>cd`), and `vim.diagnostic.config`.
+- `lua/keymaps.lua` — shared LSP keymap module. `M.lsp()` / `M.lsp_format()` are called from every LSP `on_attach` (lspconfig, rustaceanvim, jdtls). Do not duplicate these maps in plugin specs.
+- `lua/configs/init.lua` — central feature-flag/config table (`configs.ai.enabled`, `configs.icons.kinds`). Toggles and shared lookups belong here.
+- `lua/plugins/*.lua` — one file per concern, each returning a lazy.nvim spec table (or `{}`/`false` when disabled). New plugins go in a **new file here** — they are picked up automatically by the `import = "plugins"` in `init.lua`. No registration needed.
 
-Each file under `lua/plugins/` returns a **table of lazy.nvim specs**. To add a plugin, put it in the matching category file (or create a new one — lazy auto-discovers all modules under `plugins/`).
+## Plugin-map (who owns what)
 
-## Build / Lint / Test Commands
+| Concern | File | Notes |
+|---|---|---|
+| Completion | `blink.lua` | blink.cmp + blink.compat; Supermaven source merged in only when `configs.ai.enabled` via `vim.tbl_deep_extend` |
+| LSP / TS / Mason / conform | `lspconfig.lua` | treesitter is the **main-branch rewrite**: `require('nvim-treesitter').install(parsers)` + `FileType` autocmd calling `vim.treesitter.start()` and setting `indentexpr` (needs the `tree-sitter` CLI — installed via mise). Generic enable loop over `servers`; **rust_analyzer is NOT in it** (rustaceanvim owns rust and disables lspconfig's copy) and jdtls is installed but never enabled (nvim-jdtls starts it). Mason tools (servers + formatters + `jdtls`, `google-java-format`, `biome`, `stylua`) are installed declaratively by `mason-tool-installer.nvim` |
+| Rust | `lspconfig.lua` (rustaceanvim) | `<leader>ca` → RustLsp codeAction |
+| Java | `java.lua` | nvim-jdtls setup; defers `jdtls` from nvim-lspconfig to avoid duplicate servers |
+| Linting | `web-linter.lua` | nvim-lint + biome; auto-`MasonInstall`s missing linters |
+| AI | `ai.lua` | sidekick.nvim (zellij mux) + ThePrimeagen/99; entire spec is `configs.ai.enabled`-gated |
+| Picker/rename/dim/indent | `snacks.lua` | `<leader>ff/fw/fb`, `<leader>rr`, `<leader>y` |
+| Diagnostics UI | `coding.lua` | trouble.nvim |
+| Motion | `flash.lua` | `s`, `S`, `r`, `R` |
+| Terminal | `terminal.lua` | toggleterm, `<leader>tf` |
+| Tmux nav | `tmux.lua` | `<C-h/j/k/l>` |
+| Colorscheme | `colorscheme.lua` | gruvbox active; previous themes kept commented as alternatives |
+| Misc UI | `mini.lua`, `bufferline.lua`, `qol.lua` (smear cursor), `img-clip.lua` (`<leader>p`) | |
+| Lua dev | `lazydev.lua` | types for editing this config itself |
 
-```bash
-# Sync/update all plugins (lazy.nvim)
+`note-taking.lua` is currently fully commented out (obsidian/checkmate parked there).
+
+## Conventions
+
+- **Indentation: tabs, width 2** — enforced by the committed `.stylua.toml`; StyLua formats on save (`conform` → `stylua` for `lua`) and `stylua --check` must pass before committing.
+- Keymaps follow the `desc = "Title Case"` style. Global maps go in `vim-options.lua`; plugin maps live in the plugin's `keys =` spec; LSP maps only in `lua/keymaps.lua`. `<C-k>` belongs to tmux-navigator; signature help comes from blink.cmp (`signature = { enabled = true }`).
+- Commented-out plugin blocks (colorschemes, avante, codecompanion, obsidian…) are **intentional alternatives** — don't delete them when editing nearby code.
+- Feature toggles go through `lua/configs/init.lua`, not by editing specs. Pattern used in `ai.lua`/`blink.lua`: return the spec table only when the flag is on, else `{}`.
+- `lazy-lock.json` is committed — keep versions pinned; don't bump unless asked.
+- `.luarc.json` declares `vim` as a global for lua_ls; when editing this repo in Neovim, `lazydev.nvim` supplies the nvim API types.
+
+## Adding a plugin
+
+1. Create `lua/plugins/<name>.lua` returning the spec table.
+2. Use `event`/`ft`/`cmd`/`keys` to lazy-load where possible (see existing files).
+3. If it needs LSP attach behavior, call `require("keymaps").lsp({ buffer = bufnr })` instead of redefining `gd`, `K`, `gr`, etc.
+4. Restart Neovim (or `:Lazy sync`) so `lazy-lock.json` updates.
+
+## Verifying changes
+
+There is no test suite. Minimum checks before committing:
+
+```sh
+# Headless smoke test — must exit 0 with no errors in output
 nvim --headless "+Lazy! sync" +qa
 
-# Install every LSP server + formatter declared in lspconfig.lua
-nvim --headless "+MasonInstallAll" +qa   # or run :MasonInstallAll inside nvim
+# Load a specific config module
+nvim --headless "+lua assert(require('vim-options'))" +qa
 
-# Format Lua to match the repo (TABS — see Indentation below)
-stylua --indent-type Tabs --indent-width 2 lua/
+# Style check (stylua is Mason-installed)
+stylua --check lua/
 
-# Format a single file
-stylua --indent-type Tabs %
-
-# Neovim health check
-nvim --headless "+checkhealth" +qa
+# Reinstall/update Mason tools after touching the mason_tools list in lspconfig.lua
+# (inside nvim) :MasonToolsInstallSync  /  :MasonToolsUpdateSync
 ```
 
-## Code Style Guidelines
-
-### Indentation & Formatting
-- **Tabs for indentation** (the actual source files use tabs; `vim-options.lua` sets `noexpandtab tabstop=2 softtabstop=2 shiftwidth=2`).
-- There is **no `.stylua.toml`** in the repo. Run stylua with `--indent-type Tabs --indent-width 2`, otherwise it rewrites files to spaces by default.
-- JS/TS is formatted with **biome** (configured in `lspconfig.lua` via `conform.nvim`).
-
-### Module Pattern
-```lua
-local M = {}
-
-function M.something() ... end
-
-return M
-```
-
-### Imports & Requires
-- Put top-level `require()` calls near the top of the file.
-- Use a local alias: `local keymaps = require("keymaps")`.
-- For optional dependencies, `pcall(require, ...)` close to the usage site.
-
-### Naming Conventions
-- **Variables**: snake_case (`local treesitter_options`, `local mason_formatters`).
-- **Functions**: snake_case (`function M.lsp_format()`, `local diagnostic_goto`).
-- **Table keys**: snake_case or camelCase to match the upstream API (`ensure_installed`, `filetypes`).
-
-### Plugin Specification Pattern
-```lua
-return {
-  {
-    "author/plugin-name",
-    version = false,                                 -- pin to a tag only when needed
-    lazy = true,                                     -- prefer lazy loading
-    event = { "BufReadPre", "BufNewFile" },          -- load triggers
-    keys = { { "<leader>f", cmd, desc = "Description" } },
-    opts = { ... },                                  -- preferred over inline config()
-    config = function(_, opts) ... end,
-  },
-}
-```
-
-### Feature Flags & Conditional Loading
-Feature flags live in `lua/configs/init.lua` (currently `ai = { enabled = true }`). Gated plugin files return either the spec table or an empty table:
-
-```lua
-local configs = require("configs")
-return configs.ai and configs.ai.enabled
-    and { { "...", ... } }
-    or {}
-```
-
-`lua/plugins/blink.lua` shows the same idea for merging a flagged dependency via `vim.tbl_deep_extend("force", base, override)`.
-
-### Keybindings
-```lua
-vim.keymap.set("n", "<leader>f", function() ... end, { desc = "Description", buffer = bufnr })
-```
-- Single-letter mode identifiers: `"n"`, `"v"`, `"i"`, `"c"`, `"t"` (or a table for several).
-- Always include `desc` for which-key compatibility.
-- Pass `{ buffer = bufnr }` for buffer-local keymaps.
-
-### Error Handling
-```lua
-local ok, result = pcall(require, "optional_plugin")
-if ok then
-  -- use result
-else
-  -- fallback behavior
-end
-```
-
-### Configuration Merging
-```lua
-vim.tbl_deep_extend("force", base_config, override_config)  -- deep merge
-vim.tbl_extend("force", table1, table2)                      -- shallow merge
-```
-
-### Comments
-- `--` prefix; one `--` per line for block comments (no `--[[ ]]`).
-- Commented-out plugin specs are kept in files as a palette of alternatives — leave existing commented blocks in place unless told otherwise.
-
-### Neovim API
-- Prefer `vim.api.nvim_*` for API calls.
-- Use `vim.opt.*` / `vim.opt_local.*` for options, `vim.cmd()` for Vimscript.
-- Note: setting `vim.opt_local.*` at startup only affects the transient startup buffer; prefer `vim.opt.*` for global defaults (see `vim-options.lua`).
-
-## LSP Integration
-
-- Configure servers with `vim.lsp.config(name, config)` then **enable** with `vim.lsp.enable(name)`. See `lspconfig.lua` for the loop over `mason_options.ensure_installed`.
-- Every `on_attach` should call `keymaps.lsp({ buffer = bufnr })` and `keymaps.lsp_format({ buffer = bufnr })`.
-- Capabilities come from `require("blink.cmp").get_lsp_capabilities()`.
-- **Special-cased servers** (do not add them to the generic lspconfig loop unchanged):
-  - `rust_analyzer` is owned by **rustaceanvim** — skipped in the loop, configured via `vim.g.rustaceanvim`.
-  - `ts_ls` gets the `@vue/typescript-plugin` injected for `.vue` files.
-  - `jdtls` (Java) is owned by **nvim-jdtls** (`java.lua`), which intercepts via `setup.jdtls` returning `true` to avoid a duplicate server.
-
-## Mason
-
-`MasonInstallAll` is a custom user command defined in `lspconfig.lua`. It installs every formatter (`mason_formatters.ensure_installed`) plus every server mapped through `mason_lsp_mapping` (LSP name → Mason package name). When adding a new server, update **both** `mason_options.ensure_installed` and `mason_lsp_mapping`, or it will not be installed.
-
-## Keymap Conventions
-
-- Leader is `<space>` (`vim.g.mapleader = " "`).
-- LSP: `gd`/`gD`/`gi`/`gr`/`K`/`<C-k>`/`<leader>D`/`<leader>rn`/`<leader>ca` (see `keymaps.lua`).
-- Format: `<leader>fm` (LSP fallback) and `<leader>fM` (conform, file/range).
-- Diagnostics: `]d`/`[d`, `]e`/`[e`, `]w`/`[w`, `<leader>cd` (float), `<leader>t*` (trouble).
-- Be aware of intentional context-dependent overlaps, e.g. `<C-k>` is tmux-up globally but LSP signature-help buffer-locally.
-
-## When Editing
-
-- Keep `lazy-lock.json` untouched unless intentionally bumping a version (let `:Lazy sync` manage it).
-- If you add a treesitter parser, an LSP server, a formatter, or a linter, update the corresponding `ensure_installed` / `formatters_by_ft` / `linters_by_ft` table rather than ad-hoc.
-- Prefer extending existing category files over creating new ones; create a new `lua/plugins/<name>.lua` only for a genuinely new concern.
+Watch for keymap clashes: `<TAB>`/`<S-TAB>` (buffers, and blink snippet nav in insert mode), `r`/`R` (flash, operator-pending/visual only).

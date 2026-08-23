@@ -2,15 +2,15 @@ local configs = require("configs")
 return configs.ai
 		and configs.ai.enabled
 		and {
-			{
-				"supermaven-inc/supermaven-nvim",
-				event = "BufReadPre",
-				config = function()
-					require("supermaven-nvim").setup({
-						disable_inline_completion = true,
-					})
-				end,
-			},
+			-- {
+			-- 	"supermaven-inc/supermaven-nvim",
+			-- 	event = "BufReadPre",
+			-- 	config = function()
+			-- 		require("supermaven-nvim").setup({
+			-- 			disable_inline_completion = true,
+			-- 		})
+			-- 	end,
+			-- },
 			-- {
 			-- 	"olimorris/codecompanion.nvim",
 			-- 	opts = {
@@ -227,12 +227,12 @@ return configs.ai
 			-- 		},
 			-- 	},
 			-- },
-			{
-				"sourcegraph/amp.nvim",
-				branch = "main",
-				lazy = false,
-				opts = { auto_start = true, log_level = "info" },
-			},
+			-- {
+			-- 	"sourcegraph/amp.nvim",
+			-- 	branch = "main",
+			-- 	lazy = false,
+			-- 	opts = { auto_start = true, log_level = "info" },
+			-- },
 			-- keys = {
 			-- 	{
 			-- 		"<leader>ab",

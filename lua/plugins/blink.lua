@@ -1,65 +1,66 @@
-local configs = require('configs')
+local configs = require("configs")
 
 local blink_default_config = {
-	'saghen/blink.cmp',
+	"saghen/blink.cmp",
 	lazy = true,
-	event = { 'InsertEnter', 'LspAttach' },
+	event = { "InsertEnter", "LspAttach" },
 	dependencies = {
-		{ 'rafamadriz/friendly-snippets' },
+		{ "rafamadriz/friendly-snippets" },
 	},
-	version = '*',
+	version = "*",
 
 	---@module 'blink.cmp'
 	---@type blink.cmp.Config
 	opts = {
 		keymap = {
-			['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
-			['<C-e>'] = { 'hide' },
-			['<CR>'] = { 'select_and_accept', 'fallback' },
+			["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+			["<C-e>"] = { "hide" },
+			["<CR>"] = { "select_and_accept", "fallback" },
 
-			['<C-p>'] = { 'select_prev', 'fallback' },
-			['<C-n>'] = { 'select_next', 'fallback' },
+			["<C-p>"] = { "select_prev", "fallback" },
+			["<C-n>"] = { "select_next", "fallback" },
 
-			['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
-			['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+			["<C-b>"] = { "scroll_documentation_up", "fallback" },
+			["<C-f>"] = { "scroll_documentation_down", "fallback" },
 
-			['<Tab>'] = { 'snippet_forward', 'fallback' },
-			['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+			["<Tab>"] = { "snippet_forward", "fallback" },
+			["<S-Tab>"] = { "snippet_backward", "fallback" },
 		},
 		completion = {
 			menu = {
 				draw = {
 					columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
-				}
-			}
+				},
+			},
 		},
 		sources = {
-			default = { 'lsp', 'path', 'snippets', 'buffer' },
+			default = { "lsp", "path", "snippets", "buffer" },
 		},
 		cmdline = { enabled = false },
 		signature = { enabled = true },
-		fuzzy = { implementation = "prefer_rust_with_warning" }
+		fuzzy = { implementation = "prefer_rust_with_warning" },
 	},
 	opts_extend = { "sources.default" },
 }
 
-local ai_config = configs.ai and configs.ai.enabled
+local ai_config = configs.ai
+		and configs.ai.enabled
 		and {
 			dependencies = {
-				{ 'rafamadriz/friendly-snippets' },
-				{ 'supermaven-inc/supermaven-nvim' },
+				{ "rafamadriz/friendly-snippets" },
+				{ "supermaven-inc/supermaven-nvim" },
 				-- { 'Kaiser-Yang/blink-cmp-avante' },
 			},
 			opts = {
 				sources = {
 					-- default = { 'lsp', 'path', 'snippets', 'buffer', 'supermaven', 'avante' },
-					default = { 'lsp', 'path', 'snippets', 'buffer', 'supermaven' },
+					default = { "lsp", "path", "snippets", "buffer", "supermaven" },
 					providers = {
 						supermaven = {
-							name = 'supermaven',
-							module = 'blink.compat.source',
+							name = "supermaven",
+							module = "blink.compat.source",
 
-							opts = {}
+							opts = {},
 						},
 						-- avante = {
 						-- 	name = 'Avante',
@@ -68,13 +69,13 @@ local ai_config = configs.ai and configs.ai.enabled
 						-- },
 					},
 				},
-			}
+			},
 		}
-		or {}
+	or {}
 
-local blink_final_config = vim.tbl_deep_extend('force', blink_default_config, ai_config)
+local blink_final_config = vim.tbl_deep_extend("force", blink_default_config, ai_config)
 
 return {
-	{ 'saghen/blink.compat' },
+	{ "saghen/blink.compat" },
 	blink_final_config,
 }

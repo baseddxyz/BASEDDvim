@@ -1,49 +1,43 @@
-local treesitter_options = {
-	ensure_installed = {
-		"bash",
-		"javascript",
-		"lua",
-		"markdown",
-		-- "python",
-		"rust",
-		-- "svelte",
-		"typescript",
-		"go",
-		"ruby",
-		"java",
-	},
-	sync_install = false,
-	highlight = { enable = true },
-	indent = { enable = true },
+local treesitter_parsers = {
+	"bash",
+	"javascript",
+	"lua",
+	"markdown",
+	"markdown_inline",
+	"rust",
+	"typescript",
+	"go",
+	"ruby",
+	"java",
+	-- "python",
+	-- "svelte",
 }
 
-local mason_options = {
-	ensure_installed = {
-		"lua_ls",
-		"ts_ls",
-		-- "pyright",
-		-- "ruff",
-		"rust_analyzer",
-		-- "svelte",
-		"gopls",
-		"ruby_lsp",
-	},
+-- Servers enabled through the generic loop below.
+-- rust_analyzer is owned by rustaceanvim, jdtls by nvim-jdtls (java.lua).
+local servers = {
+	"lua_ls",
+	"ts_ls",
+	-- "pyright",
+	-- "ruff",
+	-- "svelte",
+	"gopls",
+	"ruby_lsp",
 }
 
-local mason_lsp_mapping = {
-	gopls = "gopls",
-	lua_ls = "lua-language-server",
-	-- pyright = "pyright",
-	-- ruff = "ruff",
-	rust_analyzer = "rust-analyzer",
-	stylua = "stylua",
-	-- svelte = "svelte-language-server",
-	ts_ls = "typescript-language-server",
-	ruby_lsp = "ruby-lsp",
-}
-
-local mason_formatters = {
-	ensure_installed = { "biome", "stylua" },
+-- Tools kept installed by mason-tool-installer (mason package names).
+local mason_tools = {
+	-- lsp servers
+	"lua-language-server",
+	"typescript-language-server",
+	"rust-analyzer",
+	"gopls",
+	"ruby-lsp",
+	"jdtls",
+	-- formatters / linters
+	"stylua",
+	"biome",
+	"google-java-format",
 }
 
 local rust_diagnostics = "rust-analyzer"
@@ -61,12 +55,23 @@ local default_lspconfig = function(capabilities)
 end
 
 return {
-	-- treesitter
+	-- treesitter (main branch rewrite: install + vim.treesitter.start)
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		event = { "BufReadPre", "BufNewFile" },
-		opts = treesitter_options,
+		config = function()
+			require("nvim-treesitter").install(treesitter_parsers)
+
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function(args)
+					if pcall(vim.treesitter.start, args.buf) then
+						-- experimental treesitter indent
+						vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end
+				end,
+			})
+		end,
 	},
 
 	-- lspconfig
@@ -76,7 +81,7 @@ return {
 		config = function()
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-			for _, lsp in ipairs(mason_options.ensure_installed) do
+			for _, lsp in ipairs(servers) do
 				if lsp == "ts_ls" then
 					vim.lsp.config(
 						lsp,
@@ -123,7 +128,7 @@ return {
 							},
 						})
 					)
-				elseif lsp ~= "rust_analyzer" then
+				else
 					vim.lsp.config(lsp, default_lspconfig(capabilities))
 				end
 
@@ -135,32 +140,21 @@ return {
 			{ "saghen/blink.cmp" },
 			{
 				"williamboman/mason.nvim",
-				event = { "BufReadPre", "BufNewFile" },
 				cmd = {
 					"Mason",
 					"MasonInstall",
-					"MasonInstallAll",
 					"MasonUninstall",
 					"MasonUninstallAll",
 					"MasonUpdate",
 				},
-				config = function()
-					require("mason").setup()
-
-					vim.api.nvim_create_user_command("MasonInstallAll", function()
-						local mason_servers = {}
-						for _, mason_server in ipairs(mason_options.ensure_installed) do
-							table.insert(mason_servers, mason_lsp_mapping[mason_server])
-						end
-
-						vim.cmd(
-							"MasonInstall "
-								.. table.concat(mason_formatters.ensure_installed, " ")
-								.. " "
-								.. table.concat(mason_servers, " ")
-						)
-					end, {})
-				end,
+				opts = {},
+			},
+			{
+				"WhoIsSethDaniel/mason-tool-installer.nvim",
+				event = { "BufReadPre", "BufNewFile" },
+				opts = {
+					ensure_installed = mason_tools,
+				},
 			},
 		},
 	},

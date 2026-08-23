@@ -9,7 +9,7 @@ function M.lsp(opts)
 		{ "n", "gd", vim.lsp.buf.definition, opts },
 		{ "n", "K", vim.lsp.buf.hover, opts },
 		{ "n", "gi", vim.lsp.buf.implementation, opts },
-		{ "n", "<C-k>", vim.lsp.buf.signature_help, opts },
+		-- NOTE: <C-k> stays with tmux-navigator; blink.cmp signature help covers this
 		{ "n", "<leader>D", vim.lsp.buf.type_definition, opts },
 		{ "n", "<leader>rn", vim.lsp.buf.rename, opts },
 		{ { "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts },
@@ -40,4 +40,3 @@ function M.lsp_format(opts)
 end
 
 return M
-
